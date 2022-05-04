@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React from "react";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+
+const darkTheme = createTheme({
+	palette: {
+		mode: "dark",
+	},
+});
+
+const navLinks = [
+	{ name: "Create Model", link: "create-model" },
+	{ name: "Create Manager", link: "create-manager" },
+	{ name: "Create Job", link: "create-job" },
+	{ name: "Add Model", link: "add-model" },
+];
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const checkNavBarLinks = () => {
+		if (navLinks.length) {
+			return navLinks;
+		} else {
+			return [];
+		}
+	};
+
+	return (
+		<ThemeProvider theme={darkTheme}>
+			<Router>
+				<Navbar links={checkNavBarLinks()} loginLink="login" />
+				<Routes path="/">
+					<Route index element={<Home />} />
+					<Route path="login" element={<Login />} />
+				</Routes>
+			</Router>
+		</ThemeProvider>
+	);
 }
 
 export default App;
