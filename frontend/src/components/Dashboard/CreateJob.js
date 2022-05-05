@@ -18,11 +18,11 @@ const CreateJob = () => {
 			maxWidth="sm"
 			sx={{
 				display: "flex",
-				margin: 6,
+				margin: 4,
 				py: 1,
-				border: "1px solid primary-dark",
+				border: "2px solid rgba(160, 160, 160, 0.1)",
 				borderRadius: 4,
-				boxShadow: "0 0 12px rgba(160, 160, 160, 0.6)",
+				boxShadow: "0 0 13px rgba(255, 255, 255, 0.15)",
 				backgroundColor: "rgba(255, 255, 255, 0.15)",
 			}}
 		>
