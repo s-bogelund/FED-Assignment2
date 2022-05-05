@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import { CssBaseline } from "@mui/material";
 
 const darkTheme = createTheme({
 	palette: {
@@ -29,9 +30,20 @@ function App() {
 		}
 	};
 
+	// 	<ThemeProvider theme={darkTheme}>
+	// 	<Router>
+	// 		<Navbar links={checkNavBarLinks()} loginLink="login" />
+	// 		<Routes path="/">
+	// 			<Route index element={<Home />} />
+	// 			<Route path="login" element={<Login />} />
+	// 		</Routes>
+	// 	</Router>
+	// </ThemeProvider>
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Router>
+				<CssBaseline enableColorScheme />
 				<Navbar links={checkNavBarLinks()} loginLink="login" />
 				<Routes path="/">
 					<Route index element={<Home />} />
