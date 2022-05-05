@@ -26,6 +26,8 @@ const JobsList = (props) => {
 		<Container
 			maxWidth="sm"
 			sx={{
+				display: "flex",
+				flexDirection: "column",
 				margin: 2,
 				paddingTop: 2,
 				paddingBottom: 3,

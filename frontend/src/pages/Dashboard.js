@@ -27,7 +27,7 @@ const Dashboard = () => {
 		{
 			id: 4,
 			modelName: "Lars",
-			company: "Zalando Og Noget Mere For At Gøre Det Længere",
+			company: "Zalando",
 			salary: "100k",
 		},
 	];
@@ -37,7 +37,7 @@ const Dashboard = () => {
 
 	return (
 		<React.Fragment>
-			<Container component="main">
+			<Container component="main" sx={{ background: "primary.dark" }}>
 				<Box
 					flexWrap={"wrap"}
 					sx={{
