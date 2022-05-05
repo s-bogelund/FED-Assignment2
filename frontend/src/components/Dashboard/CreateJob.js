@@ -15,23 +15,23 @@ const CreateJob = () => {
 
 	return (
 		<Container
-			component="main"
 			maxWidth="sm"
 			sx={{
+				display: "flex",
 				margin: 6,
 				py: 1,
 				border: "1px solid primary-dark",
 				borderRadius: 4,
-				boxShadow: "0 0 8px rgba(230, 230, 230, 0.4)",
-				backgroundColor: "rgba(255, 255, 255, 0.12)",
+				boxShadow: "0 0 12px rgba(160, 160, 160, 0.6)",
+				backgroundColor: "rgba(255, 255, 255, 0.15)",
 			}}
 		>
 			<Box
 				component="form"
 				onSubmit={handleJobSubmit}
 				sx={{
-					my: 3,
-					mx: 4,
+					my: 2,
+					mx: 2,
 					display: "flex",
 					alignItems: "center",
 					flexDirection: "column",
@@ -49,7 +49,6 @@ const CreateJob = () => {
 						name="jobName"
 					/>
 					<TextField
-						autoFocus
 						fullWidth
 						margin="normal"
 						required
@@ -58,7 +57,6 @@ const CreateJob = () => {
 						name="company"
 					/>
 					<TextField
-						autoFocus
 						fullWidth
 						type="number"
 						margin="normal"
