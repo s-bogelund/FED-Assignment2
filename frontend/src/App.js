@@ -7,6 +7,7 @@ import React from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { CssBaseline } from "@mui/material";
+import Dashboard from "./pages/Dashboard";
 
 const darkTheme = createTheme({
 	palette: {
@@ -14,31 +15,30 @@ const darkTheme = createTheme({
 	},
 });
 
-const navLinks = [
+const managerLinks = [
+	{ name: "Dashboard", link: "dashboard" },
 	{ name: "Create Model", link: "create-model" },
 	{ name: "Create Manager", link: "create-manager" },
-	{ name: "Create Job", link: "create-job" },
-	{ name: "Add Model", link: "add-model" },
+];
+const modelLinks = [
+	{ name: "My Jobs", link: "my-jobs" },
+	{ name: "Add Expense", link: "add-expense" },
 ];
 
 function App() {
-	const checkNavBarLinks = () => {
-		if (navLinks.length) {
-			return navLinks;
-		} else {
-			return [];
-		}
-	};
+	const [authenticatedUser, setAuthenticatedUser] = React.useState(true);
+	const [managerLoggedIn, setManagerLoggedIn] = React.useState(true);
+	const [modelLoggedIn, setModelLoggedIn] = React.useState(false);
 
-	// 	<ThemeProvider theme={darkTheme}>
-	// 	<Router>
-	// 		<Navbar links={checkNavBarLinks()} loginLink="login" />
-	// 		<Routes path="/">
-	// 			<Route index element={<Home />} />
-	// 			<Route path="login" element={<Login />} />
-	// 		</Routes>
-	// 	</Router>
-	// </ThemeProvider>
+	const checkNavBarLinks = () => {
+		if (!authenticatedUser) return [];
+		if (managerLoggedIn) {
+			return managerLinks;
+		} else if (modelLoggedIn) {
+			return modelLinks;
+		}
+		return [{ name: "About us", link: "about-us" }];
+	};
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -48,6 +48,7 @@ function App() {
 				<Routes path="/">
 					<Route index element={<Home />} />
 					<Route path="login" element={<Login />} />
+					<Route path="dashboard" element={<Dashboard />} />
 				</Routes>
 			</Router>
 		</ThemeProvider>
