@@ -12,16 +12,15 @@ import {
 } from "@mui/material";
 import React from "react";
 import { containerStyle } from "../../styling";
-import { seedModels } from "../../../data/seeds";
 
 const ModelList = (props) => {
-	function createData(name, email, phone, address) {
-		return { name, email, phone, address };
-	}
+	// function createData(name, email, phone, address) {
+	// 	return { name, email, phone, address };
+	// }
 
-	const rows = props.models.map((model) => {
-		return createData(model.name, model.email, model.phone, model.address);
-	});
+	// const rows = props.models.map((model) => {
+	// 	return createData(model.name, model.email, model.phone, model.address);
+	// });
 
 	return (
 		<Container
@@ -44,24 +43,24 @@ const ModelList = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map((row) => (
+					{props.models.map((model) => (
 						<TableRow
-							key={row.name}
+							key={model.name}
 							sx={{
 								"&:last-child td, &:last-child th": { border: 0 },
 							}}
 						>
 							<TableCell component="th" scope="row" sx={{ width: "25%" }}>
-								{row.name}
+								{model.name}
 							</TableCell>
 							<TableCell align="center" sx={{ width: "25%" }}>
-								{row.email}
+								{model.email}
 							</TableCell>
 							<TableCell align="center" sx={{ width: "25%" }}>
-								{row.phone}
+								{model.phone}
 							</TableCell>
 							<TableCell align="center" sx={{ width: "25%" }}>
-								{row.address}
+								{model.address}
 							</TableCell>
 						</TableRow>
 					))}

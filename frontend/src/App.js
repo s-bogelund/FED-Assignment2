@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
+// import { getSeedUsers } from "./data/seeds";
+import { getJobs, getUsers } from "./data/localStorageFetching";
 
 const darkTheme = createTheme({
 	palette: {
@@ -18,17 +20,24 @@ const darkTheme = createTheme({
 
 const managerLinks = [
 	{ name: "Dashboard", link: "dashboard" },
-	{ name: "Create User", link: "create-model" },
+	{ name: "Create User", link: "create-user" },
 ];
+
 const modelLinks = [
 	{ name: "My Jobs", link: "my-jobs" },
 	{ name: "Add Expense", link: "add-expense" },
 ];
 
 function App() {
-	const [authenticatedUser, setAuthenticatedUser] = React.useState(true);
-	const [managerLoggedIn, setManagerLoggedIn] = React.useState(true);
-	const [modelLoggedIn, setModelLoggedIn] = React.useState(false);
+	const [authenticatedUser, setAuthenticatedUser] = useState(true);
+	const [managerLoggedIn, setManagerLoggedIn] = useState(true);
+	const [modelLoggedIn, setModelLoggedIn] = useState(false);
+
+	useEffect(() => {
+		// if localStorage is emp
+		getUsers("all");
+		getJobs();
+	}, []);
 
 	const checkNavBarLinks = () => {
 		if (!authenticatedUser) return [];
@@ -49,7 +58,7 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path="login" element={<Login />} />
 					<Route path="dashboard" element={<Dashboard />} />
-					<Route path="create-model" element={<CreateUser />} />
+					<Route path="create-user" element={<CreateUser />} />
 				</Routes>
 			</Router>
 		</ThemeProvider>

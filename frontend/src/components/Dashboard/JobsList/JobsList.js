@@ -57,7 +57,10 @@ const JobsList = (props) => {
 				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h6">
 					Models Assigned
 				</Typography>
-				<Typography sx={{ gridColumn: 2, placeSelf: "center" }} variant="h6">
+				<Typography
+					sx={{ gridColumn: 2, placeSelf: "center", paddingLeft: "6%" }}
+					variant="h6"
+				>
 					Company
 				</Typography>
 				<Typography sx={{ gridColumn: 3, placeSelf: "center" }} variant="h6">

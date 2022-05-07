@@ -7,11 +7,12 @@ import {
 	Typography,
 } from "@mui/material";
 import { containerStyle } from "../styling";
-import { seedModels } from "../../data/seeds";
+import { seedUsers } from "../../data/seeds";
 import React, { useEffect, useState } from "react";
+import { getUsers } from "../../data/localStorageFetching";
 
 const CreateJob = (props) => {
-	const [modelOptions, setModelOptions] = useState(seedModels);
+	const [modelOptions, setModelOptions] = useState(getUsers("model"));
 	const [company, setCompany] = useState("");
 	const [salary, setSalary] = useState("");
 	const [chosenModels, setChosenModels] = useState([]);
@@ -23,6 +24,9 @@ const CreateJob = (props) => {
 		setSalary("");
 		setChosenModels([]);
 	};
+	useEffect(() => {
+		console.log("modelOptions: ", modelOptions);
+	}, [modelOptions]);
 
 	const handleModelSelected = (event, value) => {
 		// console.log("handleModelSelected called with value: ", value);
@@ -42,7 +46,7 @@ const CreateJob = (props) => {
 					flexDirection: "column",
 				}}
 			>
-				<Typography variant="h5">Create New Job</Typography>
+				<Typography variant="h5">Add New Job</Typography>
 				<Box sx={{ my: 1 }}>
 					<TextField
 						onInput={(event) => setCompany(event.target.value)}

@@ -26,7 +26,7 @@ const JobModels = (props) => {
 			<Paper
 				onMouseEnter={() => setIsHovering(true)}
 				onMouseLeave={() => setIsHovering(false)}
-				onClick={() => props.onDelete(props.model, props.key)}
+				onClick={() => props.onDelete(props.model)}
 				sx={{
 					...paperStyle,
 					cursor: "pointer",

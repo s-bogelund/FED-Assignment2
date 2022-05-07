@@ -25,31 +25,13 @@ export const seedJobs = [
 	},
 ];
 
-export const seedManagers = [
-	{
-		id: 1,
-		name: "Carsten",
-		role: "Manager",
-		email: "carsten@kenneth.dk",
-		phone: "12376418",
-		address: "Havnevej 8",
-	},
-	{
-		id: 2,
-		name: "Granaten",
-		role: "Manager",
-		email: "granaten@bombe.dk",
-		phone: "12345438",
-		address: "Havnevej 18",
-	},
-];
-
-export const seedModels = [
+const seedUsers = [
 	{
 		id: 1,
 		name: "Kenneth",
 		role: "Model",
 		email: "kenneth@jæger.dk",
+		password: "123456",
 		phone: "12345678",
 		address: "Havnevej 1",
 	},
@@ -58,6 +40,7 @@ export const seedModels = [
 		name: "Grenen",
 		role: "Model",
 		email: "Grenen@jæger.dk",
+		password: "123456",
 		phone: "123432148",
 		address: "Havnevej 2",
 	},
@@ -66,6 +49,7 @@ export const seedModels = [
 		name: "Brian",
 		role: "Model",
 		email: "Brian@jæger.dk",
+		password: "123456",
 		phone: "12123478",
 		address: "Havnevej 3",
 	},
@@ -74,6 +58,7 @@ export const seedModels = [
 		name: "Lars",
 		role: "Model",
 		email: "Lars@jæger.dk",
+		password: "123456",
 		phone: "12123443",
 		address: "Havnevej 4",
 	},
@@ -82,7 +67,36 @@ export const seedModels = [
 		name: "Ulven",
 		role: "Model",
 		email: "Ulven@jæger.dk",
+		password: "123456",
 		phone: "12123478",
 		address: "Havnevej 5",
 	},
+	{
+		id: 6,
+		name: "Carsten",
+		role: "Manager",
+		email: "carsten@kenneth.dk",
+		password: "123456",
+		phone: "12376418",
+		address: "Havnevej 8",
+	},
+	{
+		id: 7,
+		name: "Granaten",
+		role: "Manager",
+		email: "granaten@bombe.dk",
+		password: "123456",
+		phone: "12345438",
+		address: "Havnevej 18",
+	},
 ];
+
+export const getSeedUsers = (role) => {
+	if (role.toLowerCase() === "all") return seedUsers;
+
+	const userSeeds = seedUsers.filter(
+		(user) => user.role.toLowerCase() === role.toLowerCase()
+	);
+
+	return userSeeds;
+};

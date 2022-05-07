@@ -1,7 +1,6 @@
 import { Container, List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { seedJobs, seedManagers, seedModels } from "../data/seeds";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
 import ModelList from "../components/Dashboard/ModelList/ModelList";
@@ -11,40 +10,28 @@ import {
 	largeBoxStyle,
 } from "../components/styling";
 import AddModelDialog from "../components/Dashboard/AddModelDialog";
+import { getJobs, getUsers, updateJobs } from "../data/localStorageFetching";
 
 const Dashboard = () => {
 	const [jobs, setJobs] = useState([]);
-	const [models, setModels] = useState(seedModels);
+	const [models, setModels] = useState(getUsers("model"));
 	const [showAddDialog, setShowAddDialog] = useState(false);
 	const [availableModels, setAvailableModels] = useState([]);
-	const [jobToUdate, setJobToUpdate] = useState(null);
+	const [jobToUpdate, setJobToUpdate] = useState(null);
 
 	useEffect(() => {
-		// if no jobs, create some
-		if (
-			!JSON.parse(localStorage.getItem("jobsList")) ||
-			!JSON.parse(localStorage.getItem("jobsList")).length
-		) {
-			console.log("setting local storage");
-			localStorage.setItem("jobsList", JSON.stringify(seedJobs));
-			setJobs(seedJobs);
-			console.log("Seed data used");
-		} else {
-			console.log("Using local storage");
-			setJobs(JSON.parse(localStorage.getItem("jobsList")));
-		}
+		setJobs(getJobs());
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem("jobsList", JSON.stringify(jobs));
-		console.log("localStorage updated");
+		updateJobs(jobs);
 	}, [jobs]);
 
 	const addModelToExistingJob = (model) => {
 		setShowAddDialog(false);
 
 		const newJobs = jobs.map((job) => {
-			if (job.id === jobToUdate) {
+			if (job.id === jobToUpdate) {
 				job.modelName.push(model);
 			}
 			return job;
