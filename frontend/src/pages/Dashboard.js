@@ -37,7 +37,8 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		localStorage.setItem("jobsList", JSON.stringify(jobs));
-	}, [jobs, availableModels]);
+		console.log("localStorage updated");
+	}, [jobs]);
 
 	const addModelToExistingJob = (model) => {
 		setShowAddDialog(false);
@@ -51,20 +52,30 @@ const Dashboard = () => {
 		setJobs(newJobs);
 	};
 
+	const handleRemoveModelFromJob = (model, id) => {
+		console.log(model, id);
+		const newJobs = jobs.map((job) => {
+			if (job.id === id) {
+				job.modelName = job.modelName.filter((m) => m !== model);
+			}
+			return job;
+		});
+		setJobs(newJobs);
+	};
+
 	const findAvailableModels = (jobId) => {
 		const job = jobs.find((job) => job.id === jobId);
+		setJobToUpdate(job.id);
 
 		const availableModels = models.filter((model) => {
 			return !job.modelName.includes(model.name);
 		});
 
 		const availableModelNames = availableModels.map((model) => model.name);
-		setJobToUpdate(jobId);
 		return availableModelNames;
 	};
 
 	const handleAddModelToJob = (jobId) => {
-		console.log("handleAddModelToJob called with jobId: ", jobId);
 		setAvailableModels(findAvailableModels(jobId));
 		setShowAddDialog(true);
 	};
@@ -129,6 +140,7 @@ const Dashboard = () => {
 						jobs={jobs}
 						onDeleteJob={handleDeleteJob}
 						onAddModel={handleAddModelToJob}
+						onRemoveModel={handleRemoveModelFromJob}
 					/>
 					<AddModelDialog
 						open={showAddDialog}

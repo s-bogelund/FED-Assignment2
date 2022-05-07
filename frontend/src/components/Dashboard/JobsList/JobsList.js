@@ -11,9 +11,7 @@ import { containerStyle } from "../../styling";
 import Job from "./Job";
 
 const JobsList = (props) => {
-
-	const renderList = () => {
-		console.log("renderList called : ", props.jobs);
+	const renderJobList = () => {
 		const jobs = props.jobs.map((job) => {
 			return (
 				<Job
@@ -24,6 +22,7 @@ const JobsList = (props) => {
 					salary={job.salary}
 					onDeleteJob={props.onDeleteJob}
 					onAddModel={props.onAddModel}
+					onRemoveModel={props.onRemoveModel}
 				/>
 			);
 		});
@@ -64,7 +63,7 @@ const JobsList = (props) => {
 				</Typography>
 			</Box>
 
-			{renderList()}
+			{renderJobList()}
 		</Container>
 	);
 };
