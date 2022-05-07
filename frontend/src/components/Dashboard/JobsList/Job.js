@@ -15,32 +15,17 @@ import { Box } from "@mui/system";
 import JobModels from "./JobModels";
 
 const Job = (props) => {
-	const stackStyle = () => {
-		if (props.isHeader)
-			return {
-				display: "grid",
-				gridTemplateColumns: "1fr 1fr 1fr",
-				placeItems: "center",
-				justifyContent: "center",
-				alignItems: "center",
-				fontSize: "1.7rem",
-				"&paperStyle": {
-					border: "none",
-				},
-			};
-		else
-			return {
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-				border: "1px solid rgba(0, 0, 0, 0.52)",
-				borderRadius: 1,
-				px: 1,
-				py: 0.4,
-				margin: 0.3,
-				my: 0.5,
-				background: "#0c172341",
-			};
+	const stackStyle = {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		border: "1px solid rgba(0, 0, 0, 0.52)",
+		borderRadius: 1,
+		px: 1,
+		py: 0.4,
+		margin: 0.3,
+		my: 0.5,
+		background: "#0c172341",
 	};
 
 	const paperStyle = {
@@ -54,16 +39,11 @@ const Job = (props) => {
 	};
 
 	const onAdd = () => {
-		console.log("add");
+		props.onAddModel(props.id);
 	};
 
 	const onDeleteJob = () => {
-		console.log("Delete Job");
 		props.onDeleteJob(props.id);
-	};
-
-	const onEdit = () => {
-		console.log("Edit Job");
 	};
 
 	const renderJobModels = () => {

@@ -11,7 +11,6 @@ import { containerStyle } from "../../styling";
 import Job from "./Job";
 
 const JobsList = (props) => {
-	console.log("JobsList Props: ", props);
 
 	const renderList = () => {
 		console.log("renderList called : ", props.jobs);
@@ -24,6 +23,7 @@ const JobsList = (props) => {
 					company={job.company}
 					salary={job.salary}
 					onDeleteJob={props.onDeleteJob}
+					onAddModel={props.onAddModel}
 				/>
 			);
 		});
