@@ -140,8 +140,16 @@ const Job = (props) => {
 			</Box>
 
 			<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-				<Tooltip title="Delete Job" placement="top">
-					<IconButton size="small" onClick={onDeleteJob}>
+				<Tooltip title="Delete Job" placement="right">
+					<IconButton
+						size="small"
+						onClick={onDeleteJob}
+						sx={{
+							"&:hover": {
+								color: "darkred",
+							},
+						}}
+					>
 						<DeleteForeverRoundedIcon fontSize="small" />
 					</IconButton>
 				</Tooltip>

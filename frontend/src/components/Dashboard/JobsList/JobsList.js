@@ -31,12 +31,14 @@ const JobsList = (props) => {
 
 	return (
 		<Container
-			maxWidth="sm"
+			maxWidth="lg"
 			sx={{
 				...containerStyle,
 				paddingBottom: 4,
 				paddingTop: 2,
 				flexGrow: 0,
+				width: "50%",
+				minWidth: "580px",
 			}}
 		>
 			<Typography

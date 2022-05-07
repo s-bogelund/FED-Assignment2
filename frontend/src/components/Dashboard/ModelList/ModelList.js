@@ -25,7 +25,7 @@ const ModelList = (props) => {
 
 	return (
 		<Container
-			maxWidth="xl"
+			maxWidth="xxl"
 			sx={{
 				...containerStyle,
 				flexDirection: "column",

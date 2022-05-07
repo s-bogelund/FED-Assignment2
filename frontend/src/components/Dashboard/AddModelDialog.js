@@ -23,7 +23,15 @@ const AddModelDialog = (props) => {
 	});
 
 	return (
-		<Dialog open={props.open} onClose={props.onCancel}>
+		<Dialog
+			open={props.open}
+			onClose={props.onCancel}
+			sx={{
+				"&.container": {
+					backgroundColor: "red",
+				},
+			}}
+		>
 			<DialogTitle>Add Model</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
