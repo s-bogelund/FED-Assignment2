@@ -17,12 +17,18 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		// if no jobs, create some
-		if (!JSON.parse(localStorage.getItem("jobsList"))) {
+		if (
+			!JSON.parse(localStorage.getItem("jobsList")) ||
+			!JSON.parse(localStorage.getItem("jobsList")).length
+		) {
 			console.log("setting local storage");
 			localStorage.setItem("jobsList", JSON.stringify(seedJobs));
 			setJobs(seedJobs);
 			console.log("Seed data used");
-		} else setJobs(JSON.parse(localStorage.getItem("jobsList")));
+		} else {
+			console.log("Using local storage");
+			setJobs(JSON.parse(localStorage.getItem("jobsList")));
+		}
 	}, []);
 
 	useEffect(() => {

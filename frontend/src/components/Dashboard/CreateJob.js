@@ -19,6 +19,9 @@ const CreateJob = (props) => {
 	const handleJobSubmit = (event) => {
 		event.preventDefault();
 		props.onNewJob(company, salary, chosenModels);
+		setCompany("");
+		setSalary("");
+		setChosenModels([]);
 	};
 
 	const handleModelSelected = (event, value) => {
@@ -46,6 +49,7 @@ const CreateJob = (props) => {
 						fullWidth
 						margin="normal"
 						required
+						value={company}
 						id="company"
 						label="Company"
 						name="company"
@@ -55,6 +59,7 @@ const CreateJob = (props) => {
 						onInput={(event) => setSalary(event.target.value)}
 						type="number"
 						margin="normal"
+						value={salary}
 						required
 						id="salary"
 						label="Salary"
@@ -64,6 +69,7 @@ const CreateJob = (props) => {
 						multiple
 						disableCloseOnSelect
 						onChange={handleModelSelected}
+						value={chosenModels}
 						id="models"
 						options={modelOptions}
 						getOptionLabel={(option) => option.name}

@@ -24,7 +24,13 @@ const ModelList = (props) => {
 	});
 
 	return (
-		<Container sx={{ ...containerStyle, width: "xl" }}>
+		<Container
+			maxWidth="xl"
+			sx={{
+				...containerStyle,
+				flexDirection: "column",
+			}}
+		>
 			<Box sx={{ display: "flex", justifyContent: "center" }}>
 				<Typography variant="h5">Models</Typography>
 			</Box>
@@ -41,7 +47,9 @@ const ModelList = (props) => {
 					{rows.map((row) => (
 						<TableRow
 							key={row.name}
-							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+							sx={{
+								"&:last-child td, &:last-child th": { border: 0 },
+							}}
 						>
 							<TableCell component="th" scope="row" sx={{ width: "25%" }}>
 								{row.name}

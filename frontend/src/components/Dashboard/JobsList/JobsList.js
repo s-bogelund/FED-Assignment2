@@ -1,4 +1,11 @@
-import { Container, List, ListItem, Stack, Typography } from "@mui/material";
+import {
+	Box,
+	Container,
+	List,
+	ListItem,
+	Stack,
+	Typography,
+} from "@mui/material";
 import React from "react";
 import { containerStyle } from "../../styling";
 import Job from "./Job";
@@ -17,7 +24,6 @@ const JobsList = (props) => {
 					company={job.company}
 					salary={job.salary}
 					onDeleteJob={props.onDeleteJob}
-					isHeader={false}
 				/>
 			);
 		});
@@ -27,20 +33,36 @@ const JobsList = (props) => {
 	return (
 		<Container
 			maxWidth="sm"
-			sx={{ ...containerStyle, paddingBottom: 4, paddingTop: 2 }}
+			sx={{
+				...containerStyle,
+				paddingBottom: 4,
+				paddingTop: 2,
+				flexGrow: 0,
+			}}
 		>
 			<Typography
-				sx={{ display: "flex", justifyContent: "center" }}
+				sx={{ display: "flex", justifyContent: "center", marginBottom: 2 }}
 				variant="h5"
 			>
 				Jobs Overview
 			</Typography>
-			<Job
-				isHeader={true}
-				models={["Models"]}
-				company="Company"
-				salary="Salary "
-			/>
+			<Box
+				fullWidth
+				sx={{
+					display: "grid",
+					gridTemplateColumns: "1.5fr 1.4fr .8fr .2fr",
+				}}
+			>
+				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h6">
+					Models Assigned
+				</Typography>
+				<Typography sx={{ gridColumn: 2, placeSelf: "center" }} variant="h6">
+					Company
+				</Typography>
+				<Typography sx={{ gridColumn: 3, placeSelf: "center" }} variant="h6">
+					Pay
+				</Typography>
+			</Box>
 
 			{renderList()}
 		</Container>
