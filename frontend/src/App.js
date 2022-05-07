@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
+import CreateUser from "./pages/CreateUser";
 
 const darkTheme = createTheme({
 	palette: {
@@ -17,8 +18,7 @@ const darkTheme = createTheme({
 
 const managerLinks = [
 	{ name: "Dashboard", link: "dashboard" },
-	{ name: "Create Model", link: "create-model" },
-	{ name: "Create Manager", link: "create-manager" },
+	{ name: "Create User", link: "create-model" },
 ];
 const modelLinks = [
 	{ name: "My Jobs", link: "my-jobs" },
@@ -49,6 +49,7 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path="login" element={<Login />} />
 					<Route path="dashboard" element={<Dashboard />} />
+					<Route path="create-model" element={<CreateUser />} />
 				</Routes>
 			</Router>
 		</ThemeProvider>
