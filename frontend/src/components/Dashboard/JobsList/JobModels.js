@@ -4,10 +4,6 @@ import React, { useEffect, useState } from "react";
 const JobModels = (props) => {
 	const [isHovering, setIsHovering] = useState(false);
 
-	useEffect(() => {
-		console.log("JobModels: useEffect");
-	}, [JobModels]);
-
 	const paperStyle = {
 		display: "flex",
 		justifyContent: "flex-start",

@@ -1,31 +1,33 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+	Autocomplete,
+	Box,
+	Button,
+	Container,
+	TextField,
+	Typography,
+} from "@mui/material";
+import { containerStyle } from "../styling";
+import { seedModels } from "../../data/seeds";
+import React, { useEffect, useState } from "react";
 
-const CreateJob = () => {
+const CreateJob = (props) => {
+	const [modelOptions, setModelOptions] = useState(seedModels);
+	const [company, setCompany] = useState("");
+	const [salary, setSalary] = useState("");
+	const [chosenModels, setChosenModels] = useState([]);
+
 	const handleJobSubmit = (event) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			title: data.get("jobName"),
-			company: data.get("company"),
-			salary: data.get("salary"),
-			description: data.get("jobDescription"),
-		});
+		props.onNewJob(company, salary, chosenModels);
+	};
+
+	const handleModelSelected = (event, value) => {
+		// console.log("handleModelSelected called with value: ", value);
+		setChosenModels(value);
 	};
 
 	return (
-		<Container
-			maxWidth="sm"
-			sx={{
-				display: "flex",
-				margin: 4,
-				py: 1,
-				border: "2px solid rgba(160, 160, 160, 0.1)",
-				borderRadius: 4,
-				boxShadow: "0 0 13px rgba(255, 255, 255, 0.15)",
-				backgroundColor: "rgba(255, 255, 255, 0.15)",
-			}}
-		>
+		<Container maxWidth="xs" sx={containerStyle}>
 			<Box
 				component="form"
 				onSubmit={handleJobSubmit}
@@ -40,15 +42,7 @@ const CreateJob = () => {
 				<Typography variant="h5">Create New Job</Typography>
 				<Box sx={{ my: 1 }}>
 					<TextField
-						autoFocus
-						fullWidth
-						margin="normal"
-						required
-						id="jobName"
-						label="Job Name"
-						name="jobName"
-					/>
-					<TextField
+						onInput={(event) => setCompany(event.target.value)}
 						fullWidth
 						margin="normal"
 						required
@@ -58,6 +52,7 @@ const CreateJob = () => {
 					/>
 					<TextField
 						fullWidth
+						onInput={(event) => setSalary(event.target.value)}
 						type="number"
 						margin="normal"
 						required
@@ -65,15 +60,22 @@ const CreateJob = () => {
 						label="Salary"
 						name="salary"
 					/>
-					<TextField
-						fullWidth
-						multiline
-						rows="3"
-						margin="normal"
-						required
-						id="jobDescription"
-						label="Job description"
-						name="jobDescription"
+					<Autocomplete
+						multiple
+						disableCloseOnSelect
+						onChange={handleModelSelected}
+						id="models"
+						options={modelOptions}
+						getOptionLabel={(option) => option.name}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								name="models"
+								margin="normal"
+								label="Select Models"
+								placeholder="Choose Models"
+							/>
+						)}
 					/>
 				</Box>
 				<Button type="submit" variant="contained">

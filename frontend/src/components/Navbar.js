@@ -23,7 +23,7 @@ const Navbar = (props) => {
 						}}
 					>
 						<Typography variant="h4" sx={{ color: "primary.dark" }}>
-							ModelBureau2
+							Jægerne
 						</Typography>
 					</Box>
 					<Box
