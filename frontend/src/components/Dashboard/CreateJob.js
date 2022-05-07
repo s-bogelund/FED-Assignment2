@@ -9,7 +9,7 @@ import {
 import { containerStyle } from "../styling";
 import { seedUsers } from "../../data/seeds";
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../../data/localStorageFetching";
+import { getUsers } from "../../data/handleLocalStorage";
 
 const CreateJob = (props) => {
 	const [modelOptions, setModelOptions] = useState(getUsers("model"));

@@ -3,14 +3,14 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
-import ModelList from "../components/Dashboard/ModelList/ModelList";
+import ModelList from "../components/Dashboard/ModelList";
 import {
 	bodyContainer,
 	containerStyle,
 	largeBoxStyle,
 } from "../components/styling";
 import AddModelDialog from "../components/Dashboard/AddModelDialog";
-import { getJobs, getUsers, updateJobs } from "../data/localStorageFetching";
+import { getJobs, getUsers, updateJobs } from "../data/handleLocalStorage";
 
 const Dashboard = () => {
 	const [jobs, setJobs] = useState([]);

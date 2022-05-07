@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
+import { saveUser } from "../data/handleLocalStorage";
+import { v4 as uuid } from "uuid";
 
 const CreateUser = () => {
 	const [email, setEmail] = useState("");
@@ -28,6 +30,18 @@ const CreateUser = () => {
 			address,
 			isManager,
 		});
+
+		const newUser = {
+			id: uuid(),
+			name: name,
+			role: isManager ? "Manager" : "Model",
+			email: email,
+			password: password,
+			phone: phone,
+			address: address,
+		};
+
+		saveUser(newUser);
 	};
 
 	return (

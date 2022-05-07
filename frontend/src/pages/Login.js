@@ -8,15 +8,11 @@ import {
 } from "@mui/material";
 import React from "react";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
+import { getUsers } from "../data/handleLocalStorage";
 
 const Login = () => {
 	const handleLoginSubmit = (event) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
 	};
 	return (
 		<Container component="main" sx={bodyContainer}>

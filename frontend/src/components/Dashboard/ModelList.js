@@ -11,7 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import React from "react";
-import { containerStyle } from "../../styling";
+import { containerStyle } from "../styling";
 
 const ModelList = (props) => {
 	// function createData(name, email, phone, address) {

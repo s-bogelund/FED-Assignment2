@@ -28,3 +28,13 @@ export const getJobs = () => {
 export const updateJobs = (jobs) => {
 	localStorage.setItem("jobs", JSON.stringify(jobs));
 };
+
+export const updateUsers = (users) => {
+	localStorage.setItem("users", JSON.stringify(users));
+};
+
+export const saveUser = (user) => {
+	let users = JSON.parse(localStorage.getItem("users"));
+	users.push(user);
+	localStorage.setItem("users", JSON.stringify(users));
+};

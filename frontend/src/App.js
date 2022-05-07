@@ -10,7 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 // import { getSeedUsers } from "./data/seeds";
-import { getJobs, getUsers } from "./data/localStorageFetching";
+import { getJobs, getUsers } from "./data/handleLocalStorage";
 
 const darkTheme = createTheme({
 	palette: {
@@ -34,7 +34,7 @@ function App() {
 	const [modelLoggedIn, setModelLoggedIn] = useState(false);
 
 	useEffect(() => {
-		// if localStorage is emp
+		// if localStorage is empty, dummy data will be used
 		getUsers("all");
 		getJobs();
 	}, []);
