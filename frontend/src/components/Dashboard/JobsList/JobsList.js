@@ -12,10 +12,11 @@ const JobsList = (props) => {
 				<Job
 					id={job.id}
 					key={job.id}
-					name={job.modelName}
+					models={job.modelName}
 					company={job.company}
 					salary={job.salary}
 					onDeleteJob={props.onDeleteJob}
+					isHeader={false}
 				/>
 			);
 		});
@@ -42,8 +43,15 @@ const JobsList = (props) => {
 				sx={{ display: "flex", justifyContent: "center" }}
 				variant="h5"
 			>
-				All Jobs
+				Jobs Overview
 			</Typography>
+			<Job
+				isHeader={true}
+				models={["Models"]}
+				company="Company"
+				salary="Salary "
+			/>
+
 			{renderList()}
 		</Container>
 	);

@@ -2,33 +2,33 @@ import { Container } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
-import JobsList from "../components/Dashboard/JobsList";
+import JobsList from "../components/Dashboard/JobsList/JobsList";
 
 const Dashboard = () => {
-	const tempJobs = [
+	const seedJobs = [
 		{
 			id: 1,
-			modelName: "Kenneth",
+			modelName: ["Kenneth", "Ulven"],
 			company: "Assos",
-			salary: "100k",
+			salary: "1200",
 		},
 		{
 			id: 2,
-			modelName: "Grenen",
+			modelName: ["Grenen"],
 			company: "Gucci",
-			salary: "100k",
+			salary: "1400",
 		},
 		{
 			id: 3,
-			modelName: "Brian",
+			modelName: ["Brian"],
 			company: "Assos",
-			salary: "100k",
+			salary: "1100",
 		},
 		{
 			id: 4,
-			modelName: "Lars",
+			modelName: ["Lars"],
 			company: "Zalando",
-			salary: "100k",
+			salary: "900",
 		},
 	];
 	const handleDeleteJob = (id) => {
@@ -47,7 +47,7 @@ const Dashboard = () => {
 					}}
 				>
 					<CreateJob />
-					<JobsList jobs={tempJobs} onDeleteJob={handleDeleteJob} />
+					<JobsList jobs={seedJobs} onDeleteJob={handleDeleteJob} />
 				</Box>
 			</Container>
 		</React.Fragment>
