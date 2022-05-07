@@ -1,5 +1,6 @@
 import { Container, List, ListItem, Stack, Typography } from "@mui/material";
 import React from "react";
+import { containerStyle } from "../../styling";
 import Job from "./Job";
 
 const JobsList = (props) => {
@@ -26,18 +27,7 @@ const JobsList = (props) => {
 	return (
 		<Container
 			maxWidth="sm"
-			sx={{
-				display: "flex",
-				flexDirection: "column",
-				margin: 2,
-				paddingTop: 2,
-				paddingBottom: 3,
-				paddingRight: 0,
-				border: "2px solid rgba(160, 160, 160, 0.1)",
-				borderRadius: 4,
-				boxShadow: "0 0 13px rgba(255, 255, 255, 0.15)",
-				backgroundColor: "rgba(255, 255, 255, 0.15)",
-			}}
+			sx={{ ...containerStyle, paddingBottom: 4, paddingTop: 2 }}
 		>
 			<Typography
 				sx={{ display: "flex", justifyContent: "center" }}

@@ -12,7 +12,7 @@ const JobModels = (props) => {
 		borderRadius: 1,
 		border: "1px solid rgba(0, 0, 0, 0.52)",
 		px: 1,
-		mx: 0.25,
+		m: 0.25,
 	};
 
 	// const onModelHover = (event) => {
@@ -32,7 +32,7 @@ const JobModels = (props) => {
 			}}
 		>
 			<Typography variant="body1">
-				{isHovering ? "Delete" : props.model}
+				{isHovering ? props.model + " X" : props.model}
 			</Typography>
 		</Paper>
 	);

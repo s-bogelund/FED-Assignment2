@@ -27,7 +27,7 @@ const CreateJob = (props) => {
 	};
 
 	return (
-		<Container maxWidth="xs" sx={containerStyle}>
+		<Container maxWidth="xs" sx={{ ...containerStyle }}>
 			<Box
 				component="form"
 				onSubmit={handleJobSubmit}

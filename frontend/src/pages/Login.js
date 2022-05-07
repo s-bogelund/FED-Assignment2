@@ -7,6 +7,7 @@ import {
 	Typography,
 } from "@mui/material";
 import React from "react";
+import { bodyContainer, largeBoxStyle } from "../components/styling";
 
 const Login = () => {
 	const handleLoginSubmit = (event) => {
@@ -18,14 +19,13 @@ const Login = () => {
 		});
 	};
 	return (
-		<Container component="main">
+		<Container component="main" sx={bodyContainer}>
 			<CssBaseline />
 			<Box
 				sx={{
-					marginTop: 10,
-					display: "flex",
-					alignItems: "center",
+					...largeBoxStyle,
 					flexDirection: "column",
+					mt: "-4rem",
 				}}
 			>
 				<Typography variant="h3" color="inherit">

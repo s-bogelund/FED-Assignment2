@@ -1,15 +1,33 @@
 import { Container } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { seedJobs, seedManagers, seedModels } from "../data/seeds";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
 import ModelList from "../components/Dashboard/ModelList/ModelList";
+import {
+	bodyContainer,
+	containerStyle,
+	largeBoxStyle,
+} from "../components/styling";
 
 const Dashboard = () => {
-	const [jobs, setJobs] = useState(seedJobs);
+	const [jobs, setJobs] = useState([]);
 	const [models, setModels] = useState(seedModels);
-	console.log(jobs);
+
+	useEffect(() => {
+		// if no jobs, create some
+		if (!JSON.parse(localStorage.getItem("jobsList"))) {
+			console.log("setting local storage");
+			localStorage.setItem("jobsList", JSON.stringify(seedJobs));
+			setJobs(seedJobs);
+			console.log("Seed data used");
+		} else setJobs(JSON.parse(localStorage.getItem("jobsList")));
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("jobsList", JSON.stringify(jobs));
+	}, [jobs]);
 
 	const handleDeleteJob = (id) => {
 		console.log("handleDeleteJob called with id: ", id);
@@ -48,13 +66,15 @@ const Dashboard = () => {
 
 	return (
 		<React.Fragment>
-			<Container component="main" sx={{ background: "primary.dark" }}>
+			<Container component="main" sx={bodyContainer}>
 				<Box
 					flexWrap={"wrap"}
 					sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
+						...largeBoxStyle,
+						maxWidth: "90%",
+						"@media (max-width: 1404px)": {
+							justifyContent: "center",
+						},
 					}}
 				>
 					<CreateJob onNewJob={handleJobAdded} />

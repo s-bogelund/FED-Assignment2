@@ -8,12 +8,17 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { bodyContainer } from "./styling";
 
 const Navbar = (props) => {
 	const navigate = useNavigate();
 
 	return (
-		<AppBar position="static">
+		<AppBar
+			enableColorOnDark
+			position="fixed"
+			sx={{ backgroundColor: "rgba(8,22,36,0.85)" }}
+		>
 			<Container maxWidth="x1">
 				<Toolbar disableGutters sx={{ p: 1 }}>
 					<Box
@@ -22,7 +27,10 @@ const Navbar = (props) => {
 							cursor: "pointer",
 						}}
 					>
-						<Typography variant="h4" sx={{ color: "primary.dark" }}>
+						<Typography
+							variant="h4"
+							sx={{ color: "#007fff", fontWeight: "bold" }}
+						>
 							Jægerne
 						</Typography>
 					</Box>
@@ -56,7 +64,7 @@ const Navbar = (props) => {
 						}}
 					>
 						<Button onClick={() => navigate(props.loginLink)}>
-							<Typography sx={{ color: "primary.dark", fontSize: 16 }}>
+							<Typography sx={{ color: "#007fff", fontWeight: "bold" }}>
 								Login
 							</Typography>
 						</Button>

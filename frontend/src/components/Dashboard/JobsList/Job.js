@@ -19,7 +19,7 @@ const Job = (props) => {
 				display: "flex",
 				justifyContent: "flex-start",
 				alignItems: "center",
-				backgroundColor: "rgba(255, 255, 255, 0.03)",
+				backgroundColor: "rgba(255, 255, 255, 0.01)",
 				borderRadius: 1,
 				border: "1px solid rgba(0, 0, 0, 0.52)",
 				px: 1,
@@ -60,18 +60,20 @@ const Job = (props) => {
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
+				border: "1px solid rgba(0, 0, 0, 0.52)",
+				borderRadius: 1,
 				px: 1,
 				py: 0.4,
-				gap: 1,
-				margin: 0.5,
-				background: "#3f3f3f",
+				margin: 0.3,
+				my: 0.5,
+				background: "#0c172341",
 			}}
 		>
 			<Box
 				sx={{
 					width: "40%",
 					display: "flex",
-					wrap: "flexWrap",
+					flexWrap: "wrap",
 				}}
 			>
 				{renderJobModels()}
@@ -88,7 +90,7 @@ const Job = (props) => {
 						sx={{
 							...paperStyle(),
 							justifyContent: "center",
-							wrap: "wrap",
+							flexWrap: "wrap",
 							minWidth: "7em",
 						}}
 					>
