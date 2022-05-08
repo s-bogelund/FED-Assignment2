@@ -1,19 +1,17 @@
 import { getSeedUsers, seedJobs } from "./seeds";
 
 export const getUsers = (role) => {
-	role = role.toLowerCase();
-
 	let users = JSON.parse(localStorage.getItem("users"));
 	if (!users) {
 		// updating localStorage with seed data
 		localStorage.setItem("users", JSON.stringify(getSeedUsers("all")));
 		return getSeedUsers("all");
 	}
-	if (role === "all") {
+	if (!role) {
 		return users;
 	}
 
-	return users.filter((user) => user.role.toLowerCase() === role);
+	return users.filter((user) => user.role.toLowerCase() === role.toLowerCase());
 };
 
 export const getJobs = () => {

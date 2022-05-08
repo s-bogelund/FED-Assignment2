@@ -12,7 +12,7 @@ import { bodyContainer, largeBoxStyle } from "../components/styling";
 import { saveUser } from "../data/handleLocalStorage";
 import { v4 as uuid } from "uuid";
 
-const CreateUser = () => {
+const CreateUser = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [name, setName] = useState("");
@@ -42,6 +42,7 @@ const CreateUser = () => {
 		};
 
 		saveUser(newUser);
+		props.onNewUser(newUser);
 	};
 
 	return (
@@ -58,6 +59,7 @@ const CreateUser = () => {
 				<Typography variant="h3">Create New User</Typography>
 				<Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
 					<TextField
+						autoFocus
 						onInput={(event) => setName(event.target.value)}
 						fullWidth
 						margin="normal"

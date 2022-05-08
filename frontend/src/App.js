@@ -32,12 +32,18 @@ function App() {
 	const [authenticatedUser, setAuthenticatedUser] = useState(true);
 	const [managerLoggedIn, setManagerLoggedIn] = useState(true);
 	const [modelLoggedIn, setModelLoggedIn] = useState(false);
+	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		// if localStorage is empty, dummy data will be used
-		getUsers("all");
+		console.log("app useEffect");
+		setUsers(getUsers());
 		getJobs();
 	}, []);
+
+	const newUserAdded = (user) => {
+		setUsers(getUsers());
+	};
 
 	const checkNavBarLinks = () => {
 		if (!authenticatedUser) return [];
@@ -57,8 +63,11 @@ function App() {
 				<Routes path="/">
 					<Route index element={<Home />} />
 					<Route path="login" element={<Login />} />
-					<Route path="dashboard" element={<Dashboard />} />
-					<Route path="create-user" element={<CreateUser />} />
+					<Route path="dashboard" element={<Dashboard users={users} />} />
+					<Route
+						path="create-user"
+						element={<CreateUser onNewUser={newUserAdded} />}
+					/>
 				</Routes>
 			</Router>
 		</ThemeProvider>

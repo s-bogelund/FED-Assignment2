@@ -10,18 +10,12 @@ import {
 	TableRow,
 	Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { getUsers } from "../../data/handleLocalStorage";
 import { containerStyle } from "../styling";
 
 const ModelList = (props) => {
-	// function createData(name, email, phone, address) {
-	// 	return { name, email, phone, address };
-	// }
-
-	// const rows = props.models.map((model) => {
-	// 	return createData(model.name, model.email, model.phone, model.address);
-	// });
-
+	const [models, setModels] = useState(getUsers());
 	return (
 		<Container
 			maxWidth="xxl"
@@ -43,7 +37,7 @@ const ModelList = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{props.models.map((model) => (
+					{models.map((model) => (
 						<TableRow
 							key={model.name}
 							sx={{

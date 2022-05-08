@@ -12,8 +12,9 @@ import {
 import AddModelDialog from "../components/Dashboard/AddModelDialog";
 import { getJobs, getUsers, updateJobs } from "../data/handleLocalStorage";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
 	const [jobs, setJobs] = useState([]);
+	const [users, setUsers] = useState(props.users);
 	const [models, setModels] = useState(getUsers("model"));
 	const [showAddDialog, setShowAddDialog] = useState(false);
 	const [availableModels, setAvailableModels] = useState([]);
@@ -25,7 +26,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		updateJobs(jobs);
-	}, [jobs]);
+	}, [jobs, props.users]);
 
 	const addModelToExistingJob = (model) => {
 		setShowAddDialog(false);
@@ -71,20 +72,6 @@ const Dashboard = () => {
 		setJobs(jobs.filter((job) => job.id !== id));
 	};
 
-	// const renderListOfModels = (availableModels) => {
-	// 	const models = availableModels.map((model) => {
-	// 		return (
-	// 			<ListItem
-	// 				key={model.id}
-	// 				button
-	// 				onClick={() => handleAddModelToJob(model.id)}
-	// 			>
-	// 				<ListItemText primary={model.name} secondary={model.description} />
-	// 			</ListItem>
-	// 		);
-	// 	});
-	// 	return models;
-	// };
 
 	const modelNames = (models) => {
 		let names = [];
