@@ -83,12 +83,19 @@ function App() {
 	}, []);
 
 	useEffect(() => {
+		const users = getUsers();
+		setUsers(users);
+		console.log("users: ", users);
+	}, []);
+
+	useEffect(() => {
 		console.log("loginState useEffect called");
 		const user = getUser();
 		return checkNavBarLinks(user);
 	}, [loginState]);
 
-	const newUserAdded = (user) => {
+	const newUserAdded = () => {
+		console.log("newUserAdded called");
 		setUsers(getUsers());
 	};
 

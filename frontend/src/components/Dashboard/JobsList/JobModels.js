@@ -1,9 +1,12 @@
 import { Paper, Tooltip, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AuthContext from "../../../store/auth-context";
 
 const JobModels = (props) => {
 	const [isHovering, setIsHovering] = useState(false);
+	const ctx = useContext(AuthContext);
+	const isManager = ctx.loginState.IsManager;
 
 	const paperStyle = {
 		display: "flex",
@@ -22,24 +25,43 @@ const JobModels = (props) => {
 	// };
 
 	return (
-		<Tooltip title="Click to remove" placement="top">
-			<Paper
-				onMouseEnter={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-				onClick={() => props.onDelete(props.model)}
-				sx={{
-					...paperStyle,
-					cursor: "pointer",
-					width: props.model.length * 12 + "px",
-					"&:hover": {
-						backgroundColor: "rgba(255, 25, 25, 0.45)",
-					},
-				}}
-			>
-				{isHovering && <RemoveCircleOutlineIcon size="sm" />}
-				{!isHovering && <Typography variant="body1">{props.model}</Typography>}
-			</Paper>
-		</Tooltip>
+		<React.Fragment>
+			{isManager && (
+				<Tooltip title="Click to remove" placement="top">
+					<Paper
+						onMouseEnter={() => setIsHovering(true)}
+						onMouseLeave={() => setIsHovering(false)}
+						onClick={() => props.onDelete(props.model)}
+						sx={{
+							...paperStyle,
+							cursor: "pointer",
+							width: props.model.length * 12 + "px",
+							"&:hover": {
+								backgroundColor: "rgba(255, 25, 25, 0.45)",
+							},
+						}}
+					>
+						{isHovering && <RemoveCircleOutlineIcon size="sm" />}
+						{!isHovering && (
+							<Typography variant="body1">{props.model}</Typography>
+						)}
+					</Paper>
+				</Tooltip>
+			)}
+			{!isManager && (
+				<Tooltip title="Models assigned to this job" placement="top">
+					<Paper
+						sx={{
+							...paperStyle,
+							cursor: "pointer",
+							width: props.model.length * 12 + "px",
+						}}
+					>
+						<Typography variant="body1">{props.model}</Typography>
+					</Paper>
+				</Tooltip>
+			)}
+		</React.Fragment>
 	);
 };
 

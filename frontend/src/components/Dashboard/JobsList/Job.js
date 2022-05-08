@@ -10,9 +10,10 @@ import {
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box } from "@mui/system";
 import JobModels from "./JobModels";
+import AuthContext from "../../../store/auth-context";
 const stackStyle = {
 	display: "flex",
 	justifyContent: "space-between",
@@ -36,6 +37,8 @@ const paperStyle = {
 };
 
 const Job = (props) => {
+	const ctx = useContext(AuthContext);
+	const isManager = ctx.loginState.IsManager;
 	const onAdd = () => {
 		props.onAddModel(props.id);
 	};
@@ -45,12 +48,27 @@ const Job = (props) => {
 	};
 
 	const onRemoveModel = (model) => {
+		if (!isManager) return;
 		props.onRemoveModel(model, props.id);
 	};
 
+	const onAddExpense = () => {
+		props.onAddExpense(props.id);
+	};
+
 	const renderJobModels = () => {
+		if (!props.models) {
+			console.log("no models");
+			return;
+		}
 		const jobModels = props.models.map((model) => {
-			return <JobModels key={model} model={model} onDelete={onRemoveModel} />;
+			return (
+				<JobModels
+					key={model + Math.random() * 2}
+					model={model}
+					onDelete={onRemoveModel}
+				/>
+			);
 		});
 		return jobModels;
 	};
@@ -66,8 +84,8 @@ const Job = (props) => {
 					alignItems: "center",
 				}}
 			>
-				{renderJobModels()}{" "}
-				{!props.isHeader && (
+				{renderJobModels()}
+				{isManager && (
 					<Tooltip title="Add Model" placement="right">
 						<IconButton
 							size="small"
@@ -131,34 +149,44 @@ const Job = (props) => {
 							minWidth: "4.5rem",
 						}}
 					>
-						<Typography variant="body1">
-							{props.salary}
-							{props.isHeader ? "" : "kr"}
-						</Typography>
+						<Typography variant="body1">{props.salary}kr</Typography>
 					</Paper>
 				</Box>
 			</Box>
 
-			<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-				<Tooltip title="Delete Job" placement="right">
+			{isManager && (
+				<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+					<Tooltip title="Delete Job" placement="right">
+						<IconButton
+							size="small"
+							onClick={onDeleteJob}
+							sx={{
+								"&:hover": {
+									color: "darkred",
+								},
+							}}
+						>
+							<DeleteForeverRoundedIcon fontSize="small" />
+						</IconButton>
+					</Tooltip>
+				</Box>
+			)}
+			{!isManager && (
+				<Tooltip title="Add Expense" placement="right">
 					<IconButton
 						size="small"
-						onClick={onDeleteJob}
 						sx={{
+							opacity: "45%",
 							"&:hover": {
-								color: "darkred",
+								opacity: "85%",
 							},
 						}}
+						onClick={onAddExpense}
 					>
-						<DeleteForeverRoundedIcon fontSize="small" />
+						<AddBoxIcon fontSize="sm" />
 					</IconButton>
 				</Tooltip>
-				{/* <Tooltip title="Edit Job" placement="right">
-						<IconButton size="small" onClick={onEdit}>
-							<EditRoundedIcon fontSize="small" />
-						</IconButton>
-					</Tooltip> */}
-			</Box>
+			)}
 		</Stack>
 	);
 };

@@ -12,6 +12,7 @@ import Job from "./Job";
 
 const JobsList = (props) => {
 	const renderJobList = () => {
+		console.log(props);
 		const jobs = props.jobs.map((job) => {
 			return (
 				<Job
@@ -23,6 +24,7 @@ const JobsList = (props) => {
 					onDeleteJob={props.onDeleteJob}
 					onAddModel={props.onAddModel}
 					onRemoveModel={props.onRemoveModel}
+					onAddExpense={props.onAddExpense}
 				/>
 			);
 		});

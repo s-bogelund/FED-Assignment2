@@ -10,12 +10,19 @@ import {
 	TableRow,
 	Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getUsers } from "../../data/handleLocalStorage";
 import { containerStyle } from "../styling";
+import { v4 as uuid } from "uuid";
 
-const ModelList = (props) => {
-	const [models, setModels] = useState(getUsers());
+const EmployeeList = (props) => {
+	const [models, setModels] = useState(props.models);
+
+	useEffect(() => {
+		console.log(props.models);
+		setModels(props.models);
+	}, [props.models]);
+
 	return (
 		<Container
 			maxWidth="xxl"
@@ -25,7 +32,7 @@ const ModelList = (props) => {
 			}}
 		>
 			<Box sx={{ display: "flex", justifyContent: "center" }}>
-				<Typography variant="h5">Models</Typography>
+				<Typography variant="h5">{props.title}</Typography>
 			</Box>
 			<Table>
 				<TableHead>
@@ -34,27 +41,31 @@ const ModelList = (props) => {
 						<TableCell align="center">Email</TableCell>
 						<TableCell align="center">Phone</TableCell>
 						<TableCell align="center">Address</TableCell>
+						<TableCell align="center">Role</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{models.map((model) => (
 						<TableRow
-							key={model.name}
+							key={uuid()}
 							sx={{
 								"&:last-child td, &:last-child th": { border: 0 },
 							}}
 						>
-							<TableCell component="th" scope="row" sx={{ width: "25%" }}>
+							<TableCell component="th" scope="row" sx={{ width: "10%" }}>
 								{model.name}
 							</TableCell>
-							<TableCell align="center" sx={{ width: "25%" }}>
+							<TableCell align="center" sx={{ width: "10%" }}>
 								{model.email}
 							</TableCell>
-							<TableCell align="center" sx={{ width: "25%" }}>
+							<TableCell align="center" sx={{ width: "10%" }}>
 								{model.phone}
 							</TableCell>
-							<TableCell align="center" sx={{ width: "25%" }}>
+							<TableCell align="center" sx={{ width: "10%" }}>
 								{model.address}
+							</TableCell>
+							<TableCell align="center" sx={{ width: "10%" }}>
+								{model.role}
 							</TableCell>
 						</TableRow>
 					))}
@@ -64,4 +75,4 @@ const ModelList = (props) => {
 	);
 };
 
-export default ModelList;
+export default EmployeeList;

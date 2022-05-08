@@ -1,35 +1,71 @@
-import { Container, List, ListItem, ListItemText } from "@mui/material";
+import {
+	Container,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
-import ModelList from "../components/Dashboard/ModelList";
+import EmployeeList from "../components/Dashboard/EmployeeList";
+import { bodyContainer, largeBoxStyle } from "../components/styling";
+import ChangeJobDialog from "../components/Dashboard/ChangeJobDialog";
 import {
-	bodyContainer,
-	containerStyle,
-	largeBoxStyle,
-} from "../components/styling";
-import AddModelDialog from "../components/Dashboard/AddModelDialog";
-import { getJobs, getUsers, updateJobs } from "../data/handleLocalStorage";
+	getJobs,
+	getUser,
+	getUsers,
+	updateJobs,
+} from "../data/handleLocalStorage";
+import AuthContext from "../store/auth-context";
 
 const Dashboard = (props) => {
+	const ctx = useContext(AuthContext);
 	const [jobs, setJobs] = useState([]);
-	const [users, setUsers] = useState(props.users);
-	const [models, setModels] = useState(getUsers("model"));
-	const [showAddDialog, setShowAddDialog] = useState(false);
+	const [usersToShow, setUsersToShow] = useState([]);
+	const [showDialog, setShowDialog] = useState(false);
 	const [availableModels, setAvailableModels] = useState([]);
 	const [jobToUpdate, setJobToUpdate] = useState(null);
+	const isManager = ctx.loginState.isManager;
 
 	useEffect(() => {
-		setJobs(getJobs());
+		if (!isManager) {
+			console.log("not a manager");
+			setUsersToShow(getUsers("model"));
+			console.log(getJobs());
+			const jobs = getJobs();
+			console.log("jobs", jobs);
+			const jobsList = jobs.filter((job) =>
+				job.modelName.includes(getUser().name)
+			);
+
+			console.log("jobsList:", jobsList);
+			if (jobsList) setJobs(jobsList);
+		}
+
+		if (isManager) {
+			const users = getUsers();
+			const sortedUsers = (users) => {
+				const models = users.filter(
+					(user) => user.role.toLowerCase() === "model"
+				);
+				const managers = users.filter(
+					(user) => user.role.toLowerCase() === "manager"
+				);
+				return [...managers, ...models];
+			};
+			setUsersToShow(sortedUsers(users));
+			setJobs(getJobs());
+		}
 	}, []);
 
 	useEffect(() => {
 		updateJobs(jobs);
-	}, [jobs, props.users]);
+	}, [jobs]);
 
 	const addModelToExistingJob = (model) => {
-		setShowAddDialog(false);
+		setShowDialog(false);
 
 		const newJobs = jobs.map((job) => {
 			if (job.id === jobToUpdate) {
@@ -37,6 +73,8 @@ const Dashboard = (props) => {
 			}
 			return job;
 		});
+
+		setUsersToShow(getUsers());
 		setJobs(newJobs);
 	};
 
@@ -55,7 +93,7 @@ const Dashboard = (props) => {
 		const job = jobs.find((job) => job.id === jobId);
 		setJobToUpdate(job.id);
 
-		const availableModels = models.filter((model) => {
+		const availableModels = usersToShow.filter((model) => {
 			return !job.modelName.includes(model.name);
 		});
 
@@ -65,13 +103,12 @@ const Dashboard = (props) => {
 
 	const handleAddModelToJob = (jobId) => {
 		setAvailableModels(findAvailableModels(jobId));
-		setShowAddDialog(true);
+		setShowDialog(true);
 	};
 
 	const handleDeleteJob = (id) => {
 		setJobs(jobs.filter((job) => job.id !== id));
 	};
-
 
 	const modelNames = (models) => {
 		let names = [];
@@ -96,33 +133,67 @@ const Dashboard = (props) => {
 		});
 	};
 
+	const openAddExpenseDialog = (id) => {
+		console.log("id", id);
+		setShowDialog(true);
+		setJobToUpdate(id);
+	};
+
+	const handleAddExpense = (expense) => {
+		console.log(expense);
+		setShowDialog(false);
+
+		const newJobs = jobs.map((job) => {
+			if (job.id === jobToUpdate) {
+				job.salary = +job.salary + +expense;
+			}
+			return job;
+		});
+		setJobs(newJobs);
+	};
+
 	return (
 		<React.Fragment>
-			<Container component="main" sx={bodyContainer}>
+			<Container
+				component="main"
+				sx={{ ...bodyContainer, flexDirection: "column", pt: 14, pb: 0 }}
+			>
+				<Typography variant="h3">
+					{isManager ? "Manager " : "Model "}Dashboard
+				</Typography>
 				<Box
 					flexWrap={"wrap"}
 					sx={{
 						...largeBoxStyle,
+						mt: 4,
 						maxWidth: "90%",
 						"@media (max-width: 1404px)": {
 							justifyContent: "center",
+							maxWidth: "100%",
+							p: 2,
 						},
 					}}
 				>
-					<CreateJob onNewJob={handleJobAdded} />
+					{isManager && <CreateJob onNewJob={handleJobAdded} />}
 					<JobsList
 						jobs={jobs}
 						onDeleteJob={handleDeleteJob}
 						onAddModel={handleAddModelToJob}
 						onRemoveModel={handleRemoveModelFromJob}
+						onAddExpense={openAddExpenseDialog}
 					/>
-					<AddModelDialog
-						open={showAddDialog}
-						onCancel={() => setShowAddDialog(false)}
+					<ChangeJobDialog
+						title={isManager ? "Add Model" : "Add Expense"}
+						open={showDialog}
+						onCancel={() => setShowDialog(false)}
 						models={availableModels}
 						onModelSelected={addModelToExistingJob}
+						onAddExpense={handleAddExpense}
 					/>
-					<ModelList models={models} />
+					<EmployeeList
+						title={isManager ? "Employee List" : "Models"}
+						models={usersToShow}
+					/>
 				</Box>
 			</Container>
 		</React.Fragment>

@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
 import { saveUser } from "../data/handleLocalStorage";
 import { v4 as uuid } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = (props) => {
 	const [email, setEmail] = useState("");
@@ -19,6 +20,8 @@ const CreateUser = (props) => {
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
 	const [isManager, setIsManager] = useState(false);
+
+	const navigate = useNavigate();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -42,7 +45,9 @@ const CreateUser = (props) => {
 		};
 
 		saveUser(newUser);
-		props.onNewUser(newUser);
+		console.log("onNewUser called");
+		props.onNewUser();
+		navigate("/");
 	};
 
 	return (
