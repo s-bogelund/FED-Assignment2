@@ -3,14 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 // import { getSeedUsers } from "./data/seeds";
-import { getJobs, getUsers } from "./data/handleLocalStorage";
+import { getJobs, getUsers, getUser } from "./data/handleLocalStorage";
+import AuthContext from "./store/auth-context";
 
 const darkTheme = createTheme({
 	palette: {
@@ -28,47 +29,108 @@ const modelLinks = [
 	{ name: "Add Expense", link: "add-expense" },
 ];
 
-function App() {
-	const [authenticatedUser, setAuthenticatedUser] = useState(true);
-	const [managerLoggedIn, setManagerLoggedIn] = useState(true);
-	const [modelLoggedIn, setModelLoggedIn] = useState(false);
-	const [users, setUsers] = useState([]);
+const loginReducer = (state, action) => {
+	switch (action.type) {
+		case "LOGIN":
+			console.log(
+				"Is this a manager: ",
+				action.payload.role.toLowerCase() === "manager"
+			);
+			localStorage.setItem("user", JSON.stringify(action.payload));
+			// localStorage.setItem("token", action.payload.token); // not implemented yet
+			return {
+				...state,
+				isLoggedIn: true,
+				user: action.payload,
+				isManager: action.payload.role.toLowerCase() === "manager",
+				// token: action.payload.token,
+			};
+		case "LOGOUT":
+			return {
+				...state,
+				isLoggedIn: false,
+				user: null,
+				// token: null
+			};
+		default:
+	}
 
+	console.log(state);
+	return state;
+};
+
+function App() {
+	const [users, setUsers] = useState([]);
+	const [navbarLinks, setNavbarLinks] = useState([]);
+
+	const [loginState, dispatchLogin] = useReducer(loginReducer, {
+		isLoggedIn: false,
+		isManager: false,
+		user: {},
+	});
 	useEffect(() => {
 		// if localStorage is empty, dummy data will be used
-		console.log("app useEffect");
 		setUsers(getUsers());
 		getJobs();
+		const currentUser = getUser();
+		console.log(currentUser);
+
+		if (currentUser) {
+			checkNavBarLinks(currentUser.role);
+			dispatchLogin({ type: "LOGIN", payload: currentUser });
+		}
+
+		console.log(loginState);
 	}, []);
 
 	const newUserAdded = (user) => {
 		setUsers(getUsers());
 	};
 
-	const checkNavBarLinks = () => {
-		if (!authenticatedUser) return [];
-		if (managerLoggedIn) {
-			return managerLinks;
-		} else if (modelLoggedIn) {
-			return modelLinks;
+	const checkNavBarLinks = (role) => {
+		if (!role) return [];
+		if (role.toLowerCase() === "manager") {
+			setNavbarLinks(managerLinks);
+		} else {
+			return setNavbarLinks(modelLinks);
 		}
-		return [{ name: "About us", link: "about-us" }];
+	};
+
+	const handleAuthentication = (user) => {
+		if (user) dispatchLogin({ type: "LOGIN", payload: user });
+		else dispatchLogin({ type: "LOGOUT" });
 	};
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Router>
-				<Navbar links={checkNavBarLinks()} loginLink="login" />
-				<CssBaseline enableColorScheme />
-				<Routes path="/">
-					<Route index element={<Home />} />
-					<Route path="login" element={<Login />} />
-					<Route path="dashboard" element={<Dashboard users={users} />} />
-					<Route
-						path="create-user"
-						element={<CreateUser onNewUser={newUserAdded} />}
-					/>
-				</Routes>
+				<AuthContext.Provider
+					value={{
+						loginState,
+						dispatchLogin,
+					}}
+				>
+					<Navbar links={navbarLinks} loginLink="login" />
+					<CssBaseline enableColorScheme />
+					<Routes path="/">
+						<Route index element={<Home />} />
+						{!AuthContext.isLoggedIn && (
+							<Route
+								path="login"
+								element={<Login onLogin={handleAuthentication} />}
+							/>
+						)}
+						{loginState.isLoggedIn && (
+							<Route path="dashboard" element={<Dashboard users={users} />} />
+						)}
+						{loginState && (
+							<Route
+								path="create-user"
+								element={<CreateUser onNewUser={newUserAdded} />}
+							/>
+						)}
+					</Routes>
+				</AuthContext.Provider>
 			</Router>
 		</ThemeProvider>
 	);

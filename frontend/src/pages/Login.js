@@ -8,39 +8,19 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
-import { getUsers } from "../data/handleLocalStorage";
-
-const isValidStyle = {
-	email: {
-		"!emailState.isValid": {
-			border: "1px solid green",
-		},
-	},
-	password: {
-		"!passwordState.isValid": {
-			border: "1px solid green",
-			fontSize: "18rem",
-		},
-	},
-
-	"!emailState.isValid": {
-		border: "1px solid green",
-		background: "red",
-	},
-};
+import { getUsers,  } from "../data/handleLocalStorage";
+import AuthContext from "../store/auth-context";
 
 const emailReducer = (state, action) => {
 	if (action.type === "SET_EMAIL") {
-		console.log("action : ", action, "state : ", state);
 		return {
 			value: action.payload,
 			isValid: action.payload.includes("@") && action.payload.includes("."),
 		};
 	}
 	if (action.type === "INPUT_BLUR") {
-		console.log(state.value);
 		return {
 			value: state.value,
 			isValid: state.value.includes("@") && state.value.includes("."),
@@ -68,7 +48,6 @@ const passwordReducer = (state, action) => {
 
 const toastReducer = (state, action) => {
 	if (action.type === "SET_TOAST") {
-		console.log("action : ", action, "state : ", state);
 		return {
 			open: true,
 			message: action.payload,
@@ -83,11 +62,13 @@ const toastReducer = (state, action) => {
 	return state;
 };
 
-const Login = () => {
+const Login = (props) => {
+	const authContext = useContext(AuthContext);
 	const [emailState, dispatchEmail] = useReducer(emailReducer, {
 		value: "",
 		isValid: false,
 	});
+
 	const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
 		value: "",
 		isValid: false,
@@ -99,17 +80,18 @@ const Login = () => {
 	});
 
 	const handleLoginSubmit = (event) => {
-		console.log(emailState.isValid);
 		event.preventDefault();
 		if (!isValidFormat()) return;
 
+		const users = getUsers();
+		const user = users.find((user) => user.email === emailState.value);
+
+		if (!validateInfo(user)) return;
+
+		props.onLogin(user);
+
 		dispatchEmail({ type: "SET_EMAIL", payload: "" });
 		dispatchPassword({ type: "SET_PASSWORD", payload: "" });
-		dispatchToast({
-			type: "SET_TOAST",
-			payload: "Login Successful",
-			severity: "success",
-		});
 	};
 
 	return (
@@ -143,7 +125,6 @@ const Login = () => {
 					<TextField
 						fullWidth
 						margin="normal"
-						sx={isValidStyle.password}
 						onInput={(event) =>
 							dispatchPassword({
 								type: "SET_PASSWORD",
@@ -181,6 +162,8 @@ const Login = () => {
 			</Snackbar>
 		</Container>
 	);
+
+	// validation functions
 	function isValidFormat() {
 		if (!emailState.isValid && !passwordState.isValid) {
 			dispatchToast({
@@ -207,6 +190,26 @@ const Login = () => {
 			return false;
 		}
 		return true;
+	}
+
+	function validateInfo(user) {
+		if (!user) {
+			dispatchToast({
+				type: "SET_TOAST",
+				payload: "User with that email not found",
+				severity: "error",
+			});
+			return false;
+		}
+		console.log(user);
+		if (user.password === passwordState.value) {
+			dispatchToast({
+				type: "SET_TOAST",
+				payload: "Login Successful",
+				severity: "success",
+			});
+			return true;
+		}
 	}
 };
 export default Login;

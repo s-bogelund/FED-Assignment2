@@ -36,3 +36,11 @@ export const saveUser = (user) => {
 	users.push(user);
 	localStorage.setItem("users", JSON.stringify(users));
 };
+
+export const getUser = () => {
+	let user = JSON.parse(localStorage.getItem("user"));
+	if (!user) return false;
+
+	console.log(user);
+	return user;
+};

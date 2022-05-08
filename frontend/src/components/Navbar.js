@@ -6,13 +6,15 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { bodyContainer } from "./styling";
+import AuthContext from "../store/auth-context";
 
 const Navbar = (props) => {
+	const authContext = useContext(AuthContext);
 	const navigate = useNavigate();
 
+	console.log(props.links);
 	return (
 		<AppBar
 			enableColorOnDark
@@ -63,11 +65,13 @@ const Navbar = (props) => {
 							justifyContent: "flex-end",
 						}}
 					>
-						<Button onClick={() => navigate(props.loginLink)}>
-							<Typography sx={{ color: "#007fff", fontWeight: "bold" }}>
-								Login
-							</Typography>
-						</Button>
+						{!authContext.isLoggedin && (
+							<Button onClick={() => navigate(props.loginLink)}>
+								<Typography sx={{ color: "#007fff", fontWeight: "bold" }}>
+									Login
+								</Typography>
+							</Button>
+						)}
 					</Box>
 				</Toolbar>
 			</Container>
