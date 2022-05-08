@@ -9,8 +9,9 @@ import {
 	Typography,
 } from "@mui/material";
 import React, { useState, useReducer, useContext } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
-import { getUsers,  } from "../data/handleLocalStorage";
+import { getUsers } from "../data/handleLocalStorage";
 import AuthContext from "../store/auth-context";
 
 const emailReducer = (state, action) => {
@@ -63,6 +64,7 @@ const toastReducer = (state, action) => {
 };
 
 const Login = (props) => {
+	const navigate = useNavigate();
 	const authContext = useContext(AuthContext);
 	const [emailState, dispatchEmail] = useReducer(emailReducer, {
 		value: "",
@@ -88,6 +90,7 @@ const Login = (props) => {
 
 		if (!validateInfo(user)) return;
 
+		navigate("/dashboard");
 		props.onLogin(user);
 
 		dispatchEmail({ type: "SET_EMAIL", payload: "" });

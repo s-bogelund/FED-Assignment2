@@ -14,6 +14,12 @@ const Navbar = (props) => {
 	const authContext = useContext(AuthContext);
 	const navigate = useNavigate();
 
+	const handleLogout = () => {
+		console.log("handleLogout");
+		props.onLogout();
+		navigate("/");
+	};
+
 	console.log(props.links);
 	return (
 		<AppBar
@@ -65,10 +71,17 @@ const Navbar = (props) => {
 							justifyContent: "flex-end",
 						}}
 					>
-						{!authContext.isLoggedin && (
+						{!authContext.loginState.isLoggedIn && (
 							<Button onClick={() => navigate(props.loginLink)}>
 								<Typography sx={{ color: "#007fff", fontWeight: "bold" }}>
 									Login
+								</Typography>
+							</Button>
+						)}
+						{authContext.loginState.isLoggedIn && (
+							<Button onClick={handleLogout}>
+								<Typography sx={{ color: "#007fff", fontWeight: "bold" }}>
+									Logout
 								</Typography>
 							</Button>
 						)}

@@ -24,10 +24,7 @@ const managerLinks = [
 	{ name: "Create User", link: "create-user" },
 ];
 
-const modelLinks = [
-	{ name: "My Jobs", link: "my-jobs" },
-	{ name: "Add Expense", link: "add-expense" },
-];
+const modelLinks = [{ name: "Dashboard", link: "dashboard" }];
 
 const loginReducer = (state, action) => {
 	switch (action.type) {
@@ -46,6 +43,7 @@ const loginReducer = (state, action) => {
 				// token: action.payload.token,
 			};
 		case "LOGOUT":
+			localStorage.removeItem("user");
 			return {
 				...state,
 				isLoggedIn: false,
@@ -73,22 +71,35 @@ function App() {
 		setUsers(getUsers());
 		getJobs();
 		const currentUser = getUser();
-		console.log(currentUser);
+		console.log("currentUser: ", currentUser);
 
 		if (currentUser) {
-			checkNavBarLinks(currentUser.role);
+			console.log("On load useEffect called");
+			checkNavBarLinks(currentUser);
 			dispatchLogin({ type: "LOGIN", payload: currentUser });
 		}
 
 		console.log(loginState);
 	}, []);
 
+	useEffect(() => {
+		console.log("loginState useEffect called");
+		const user = getUser();
+		return checkNavBarLinks(user);
+	}, [loginState]);
+
 	const newUserAdded = (user) => {
 		setUsers(getUsers());
 	};
 
-	const checkNavBarLinks = (role) => {
-		if (!role) return [];
+	const checkNavBarLinks = (user) => {
+		if (!user) {
+			setNavbarLinks([]);
+			return;
+		}
+
+		const role = user.role;
+
 		if (role.toLowerCase() === "manager") {
 			setNavbarLinks(managerLinks);
 		} else {
@@ -101,6 +112,11 @@ function App() {
 		else dispatchLogin({ type: "LOGOUT" });
 	};
 
+	const handleLogout = () => {
+		console.log("handleLogout called");
+		dispatchLogin({ type: "LOGOUT" });
+	};
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Router>
@@ -110,16 +126,19 @@ function App() {
 						dispatchLogin,
 					}}
 				>
-					<Navbar links={navbarLinks} loginLink="login" />
+					<Navbar
+						links={navbarLinks}
+						loginLink="login"
+						onLogout={handleLogout}
+					/>
 					<CssBaseline enableColorScheme />
 					<Routes path="/">
 						<Route index element={<Home />} />
-						{!AuthContext.isLoggedIn && (
-							<Route
-								path="login"
-								element={<Login onLogin={handleAuthentication} />}
-							/>
-						)}
+						<Route
+							path="login"
+							element={<Login onLogin={handleAuthentication} />}
+						/>
+
 						{loginState.isLoggedIn && (
 							<Route path="dashboard" element={<Dashboard users={users} />} />
 						)}
