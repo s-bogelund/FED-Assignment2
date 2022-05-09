@@ -6,7 +6,7 @@ import AuthContext from "../../../store/auth-context";
 const JobModels = (props) => {
 	const [isHovering, setIsHovering] = useState(false);
 	const ctx = useContext(AuthContext);
-	const isManager = ctx.loginState.IsManager;
+	const isManager = ctx.loginState.isManager;
 
 	const paperStyle = {
 		display: "flex",

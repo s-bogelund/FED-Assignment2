@@ -15,7 +15,7 @@ import AuthContext from "./store/auth-context";
 
 const darkTheme = createTheme({
 	palette: {
-		mode: "dark",
+		mode: "dark",	
 	},
 });
 

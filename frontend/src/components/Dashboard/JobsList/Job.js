@@ -14,6 +14,7 @@ import React, { useContext, useState } from "react";
 import { Box } from "@mui/system";
 import JobModels from "./JobModels";
 import AuthContext from "../../../store/auth-context";
+import { ClassNames } from "@emotion/react";
 const stackStyle = {
 	display: "flex",
 	justifyContent: "space-between",
@@ -38,7 +39,8 @@ const paperStyle = {
 
 const Job = (props) => {
 	const ctx = useContext(AuthContext);
-	const isManager = ctx.loginState.IsManager;
+	const isManager = ctx.loginState.isManager;
+	console.log("isManager : ", ctx.loginState);
 	const onAdd = () => {
 		props.onAddModel(props.id);
 	};
