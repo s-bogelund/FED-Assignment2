@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useState } from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
 import EmployeeList from "../components/Dashboard/EmployeeList";
+import { getJobsBackend } from "../data/fetchStuffJWT";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
 import ChangeJobDialog from "../components/Dashboard/ChangeJobDialog";
 import {
@@ -19,6 +20,7 @@ import {
 	updateJobs,
 } from "../data/handleLocalStorage";
 import AuthContext from "../store/auth-context";
+import { v4 as uuid } from "uuid";
 
 const Dashboard = (props) => {
 	const ctx = useContext(AuthContext);
@@ -29,35 +31,43 @@ const Dashboard = (props) => {
 	const [jobToUpdate, setJobToUpdate] = useState(null);
 	const isManager = ctx.loginState.isManager;
 
+	async function getRealJobs() {
+		const backendJobs = await getJobsBackend(ctx.loginState.token);
+		updateJobs(backendJobs);
+	}
+
 	useEffect(() => {
-		if (!isManager) {
-			console.log("not a manager");
-			setUsersToShow(getUsers("model"));
-			console.log(getJobs());
-			const jobs = getJobs();
-			console.log("jobs", jobs);
-			const jobsList = jobs.filter((job) =>
-				job.modelName.includes(getUser().name)
-			);
-
-			console.log("jobsList:", jobsList);
-			if (jobsList) setJobs(jobsList);
-		}
-
-		if (isManager) {
-			const users = getUsers();
-			const sortedUsers = (users) => {
-				const models = users.filter(
-					(user) => user.role.toLowerCase() === "model"
+		async function getData() {
+			if (!isManager) {
+				setUsersToShow(getUsers("model"));
+				console.log(getJobs());
+				const jobs1 = await getRealJobs();
+				console.log("jobs1", jobs1);
+				const jobsList = jobs.filter((job) =>
+					job.modelName.includes(getUser().name)
 				);
-				const managers = users.filter(
-					(user) => user.role.toLowerCase() === "manager"
-				);
-				return [...managers, ...models];
-			};
-			setUsersToShow(sortedUsers(users));
-			setJobs(getJobs());
+
+				console.log("jobsList:", jobsList);
+				if (jobsList) setJobs(jobsList);
+			}
+
+			if (isManager) {
+				getRealJobs();
+				const users = getUsers();
+				const sortedUsers = (users) => {
+					const models = users.filter(
+						(user) => user.role.toLowerCase() === "model"
+					);
+					const managers = users.filter(
+						(user) => user.role.toLowerCase() === "manager"
+					);
+					return [...managers, ...models];
+				};
+				setUsersToShow(sortedUsers(users));
+				setJobs(getJobs());
+			}
 		}
+		getData();
 	}, []);
 
 	useEffect(() => {
@@ -90,11 +100,11 @@ const Dashboard = (props) => {
 	};
 
 	const findAvailableModels = (jobId) => {
-		const job = jobs.find((job) => job.id === jobId);
+		const job = jobs?.find((job) => job.id === jobId);
 		setJobToUpdate(job.id);
 
 		const availableModels = usersToShow.filter((model) => {
-			return !job.modelName.includes(model.name);
+			return !job?.modelName?.includes(model?.name);
 		});
 
 		const availableModelNames = availableModels.map((model) => model.name);
@@ -118,16 +128,18 @@ const Dashboard = (props) => {
 		return names;
 	};
 
-	const handleJobAdded = (company, salary, models) => {
+	const handleJobAdded = (newJob) => {
 		setJobs((prevJobs) => {
 			return [
 				...prevJobs,
 				{
-					id: Math.random(),
-					key: Math.random(),
-					company: company,
-					salary: salary,
-					modelName: modelNames(models),
+					id: uuid(),
+					key: newJob.customer + newJob.comments + Math.random().toFixed(4),
+					customer: newJob.customer,
+					startDate: newJob.startDate,
+					days: newJob.days,
+					location: newJob.location,
+					comments: newJob.comments,
 				},
 			];
 		});

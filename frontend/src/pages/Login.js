@@ -100,15 +100,15 @@ const Login = (props) => {
 		validateInfo(user);
 		if (!user) return;
 
-		const decode = jwt_decode(user.token.jwt);
-		console.log("decode:", decode);
+		const token = jwt_decode(user.token);
+		console.log("decode:", token);
 
 		let role = "Model";
-		if (JSON.stringify(decode).toLowerCase().includes("manager")) {
+		if (JSON.stringify(token).toLowerCase().includes("manager")) {
 			role = "Manager";
 		}
 
-		user = { ...user, role: role };
+		user = { ...user, role: role, token: user.token };
 		console.log("user at the end:", user);
 
 		navigate("/dashboard");

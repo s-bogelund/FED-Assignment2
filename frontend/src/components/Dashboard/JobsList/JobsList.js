@@ -19,7 +19,7 @@ const JobsList = (props) => {
 					id={job.id}
 					key={job.id}
 					models={job.modelName}
-					company={job.company}
+					customer={job.customer}
 					salary={job.salary}
 					onDeleteJob={props.onDeleteJob}
 					onAddModel={props.onAddModel}
@@ -39,7 +39,7 @@ const JobsList = (props) => {
 				paddingBottom: 4,
 				paddingTop: 2,
 				flexGrow: 0,
-				width: "50%",
+				width: "100%",
 				minWidth: "580px",
 			}}
 		>
@@ -63,7 +63,7 @@ const JobsList = (props) => {
 					sx={{ gridColumn: 2, placeSelf: "center", paddingLeft: "6%" }}
 					variant="h6"
 				>
-					Company
+					Customer
 				</Typography>
 				<Typography sx={{ gridColumn: 3, placeSelf: "center" }} variant="h6">
 					Pay

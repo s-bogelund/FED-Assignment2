@@ -20,10 +20,6 @@ const JobModels = (props) => {
 		m: 0.25,
 	};
 
-	// const onModelHover = (event) => {
-	// 	setIsHovering(!isHovering);
-	// };
-
 	return (
 		<React.Fragment>
 			{isManager && (

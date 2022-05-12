@@ -31,7 +31,7 @@ const loginReducer = (state, action) => {
 		case "LOGIN":
 			console.log(action);
 			localStorage.setItem("user", JSON.stringify(action.payload));
-			localStorage.setItem("token", action.payload.token); // not implemented yet
+			localStorage.setItem("token", action.payload.token);
 			return {
 				...state,
 				isLoggedIn: true,
@@ -61,6 +61,7 @@ function App() {
 	const [loginState, dispatchLogin] = useReducer(loginReducer, {
 		isLoggedIn: false,
 		isManager: false,
+		token: null,
 		user: {},
 	});
 	useEffect(() => {
@@ -76,7 +77,7 @@ function App() {
 			dispatchLogin({ type: "LOGIN", payload: currentUser });
 		}
 
-		console.log(loginState);
+		// console.log(loginState);
 	}, []);
 
 	useEffect(() => {

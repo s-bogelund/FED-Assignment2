@@ -42,6 +42,6 @@ export const getUser = () => {
 	let user = JSON.parse(localStorage.getItem("user"));
 	if (!user) return false;
 
-	console.log(user);
+	// console.log(user);
 	return user;
 };

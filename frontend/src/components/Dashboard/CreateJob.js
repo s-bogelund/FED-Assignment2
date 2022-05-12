@@ -8,21 +8,42 @@ import {
 } from "@mui/material";
 import { containerStyle } from "../styling";
 import { seedUsers } from "../../data/seeds";
+import { createJob } from "../../data/jobFetching";
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../../data/handleLocalStorage";
+import { getUsers, updateJobs } from "../../data/handleLocalStorage";
 
 const CreateJob = (props) => {
 	const [modelOptions, setModelOptions] = useState(getUsers("model"));
-	const [company, setCompany] = useState("");
+	const [customer, setCustomer] = useState("");
 	const [salary, setSalary] = useState("");
 	const [chosenModels, setChosenModels] = useState([]);
 
-	const handleJobSubmit = (event) => {
+	const [newJob, setNewJob] = useState({
+		customer: "",
+		startDate: "",
+		days: "",
+		location: "",
+		comments: "",
+	});
+
+	const handleJobSubmit = async (event) => {
 		event.preventDefault();
-		props.onNewJob(company, salary, chosenModels);
-		setCompany("");
-		setSalary("");
-		setChosenModels([]);
+		console.log("new job:", newJob);
+		const success = await createJob(newJob);
+		if (success) {
+			console.log("success:", success);
+			updateJobs(newJob);
+		}
+		// props.onNewJob(customer, salary, chosenModels);
+		// setNewJob({
+		// 	customer: "",
+		// 	startDate: "",
+		// 	days: "",
+		// 	location: "",
+		// 	comments: "",
+		// });
+
+		props.onNewJob(newJob);
 	};
 	useEffect(() => {
 		console.log("modelOptions: ", modelOptions);
@@ -49,27 +70,74 @@ const CreateJob = (props) => {
 				<Typography variant="h5">Add New Job</Typography>
 				<Box sx={{ my: 1 }}>
 					<TextField
-						onInput={(event) => setCompany(event.target.value)}
+						onInput={(event) =>
+							setNewJob({ ...newJob, customer: event.target.value })
+						}
 						fullWidth
 						margin="normal"
 						required
-						value={company}
-						id="company"
-						label="Company"
-						name="company"
+						value={newJob.customer}
+						id="customer"
+						label="Customer"
+						name="customer"
+					/>
+					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
+						<TextField
+							onChange={(event) => {
+								setNewJob({ ...newJob, startDate: event.target.value });
+								console.log(event.target.value);
+							}}
+							sx={{ width: "48%" }}
+							value={newJob.startDate}
+							type="date"
+							margin="normal"
+							required
+							label="Start Date"
+							InputLabelProps={{ shrink: true, required: true }}
+							id="startDate"
+							name="startDate"
+						/>
+						<TextField
+							onInput={(event) =>
+								setNewJob({ ...newJob, days: event.target.value })
+							}
+							sx={{ maxWidth: "48%" }}
+							type="number"
+							margin="normal"
+							value={newJob.days}
+							required
+							id="days"
+							label="Number of Days"
+							name="days"
+						/>
+					</Box>
+					<TextField
+						fullWidth
+						onInput={(event) =>
+							setNewJob({ ...newJob, location: event.target.value })
+						}
+						type="text"
+						margin="normal"
+						value={newJob.location}
+						required
+						id="location"
+						label="Location"
+						name="location"
 					/>
 					<TextField
 						fullWidth
-						onInput={(event) => setSalary(event.target.value)}
-						type="number"
+						onInput={(event) =>
+							setNewJob({ ...newJob, comments: event.target.value })
+						}
+						type="text"
 						margin="normal"
-						value={salary}
+						value={newJob.comments}
 						required
-						id="salary"
-						label="Salary"
-						name="salary"
+						id="comments"
+						label="Add any comments"
+						name="comments"
 					/>
-					<Autocomplete
+					{/* <Autocomplete
 						multiple
 						disableCloseOnSelect
 						onChange={handleModelSelected}
@@ -86,7 +154,7 @@ const CreateJob = (props) => {
 								placeholder="Choose Models"
 							/>
 						)}
-					/>
+					/> */}
 				</Box>
 				<Button type="submit" variant="contained">
 					<Typography variant="button">Create Job</Typography>

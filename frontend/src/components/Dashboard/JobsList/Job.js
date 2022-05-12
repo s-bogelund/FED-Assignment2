@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import React, { useContext, useState } from "react";
 import { Box } from "@mui/system";
 import JobModels from "./JobModels";
@@ -86,7 +85,6 @@ const Job = (props) => {
 					alignItems: "center",
 				}}
 			>
-				{renderJobModels()}
 				{isManager && (
 					<Tooltip title="Add Model" placement="right">
 						<IconButton
@@ -130,10 +128,11 @@ const Job = (props) => {
 						}}
 					>
 						<Typography variant="body1" sx={{ textAlign: "center" }}>
-							{props.company}
+							{props.customer}
 						</Typography>
 					</Paper>
 				</Box>
+				{renderJobModels()}
 				<Box
 					sx={{
 						display: "flex",
