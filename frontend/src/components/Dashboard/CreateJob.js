@@ -10,13 +10,10 @@ import { containerStyle } from "../styling";
 import { seedUsers } from "../../data/seeds";
 import { createJob } from "../../data/jobFetching";
 import React, { useEffect, useState } from "react";
-import { getUsers, updateJobs } from "../../data/handleLocalStorage";
+import { readUsers, updateLocalJobs } from "../../data/handleLocalStorage";
 
 const CreateJob = (props) => {
-	const [modelOptions, setModelOptions] = useState(getUsers("model"));
-	const [customer, setCustomer] = useState("");
-	const [salary, setSalary] = useState("");
-	const [chosenModels, setChosenModels] = useState([]);
+	const [modelOptions, setModelOptions] = useState(readUsers("model"));
 
 	const [newJob, setNewJob] = useState({
 		customer: "",
@@ -32,7 +29,7 @@ const CreateJob = (props) => {
 		const success = await createJob(newJob);
 		if (success) {
 			console.log("success:", success);
-			updateJobs(newJob);
+			updateLocalJobs(newJob);
 		}
 		// props.onNewJob(customer, salary, chosenModels);
 		// setNewJob({
@@ -49,10 +46,11 @@ const CreateJob = (props) => {
 		console.log("modelOptions: ", modelOptions);
 	}, [modelOptions]);
 
-	const handleModelSelected = (event, value) => {
-		// console.log("handleModelSelected called with value: ", value);
-		setChosenModels(value);
-	};
+	// autocomplete
+	// const handleModelSelected = (event, value) => {
+	// 	// console.log("handleModelSelected called with value: ", value);
+	// 	setChosenModels(value);
+	// };
 
 	return (
 		<Container maxWidth="xs" sx={{ ...containerStyle }}>

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { getSuggestedQuery } from "@testing-library/react";
 import React, { useContext, useState } from "react";
-import { getUser } from "../../data/handleLocalStorage";
+import { readUser } from "../../data/handleLocalStorage";
 import AuthContext from "../../store/auth-context";
 
 const ChangeJobDialog = (props) => {
@@ -25,7 +25,7 @@ const ChangeJobDialog = (props) => {
 	};
 
 	const handleAddExpense = () => {
-		const user = getUser();
+		const user = readUser();
 		console.log("User id : ", user.name);
 		props.onAddExpense({
 			expense: expense,

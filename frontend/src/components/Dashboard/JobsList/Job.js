@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import JobModels from "./JobModels";
 import AuthContext from "../../../store/auth-context";
@@ -39,7 +39,7 @@ const paperStyle = {
 const Job = (props) => {
 	const ctx = useContext(AuthContext);
 	const isManager = ctx.loginState.isManager;
-	console.log("isManager : ", ctx.loginState);
+
 	const onAdd = () => {
 		props.onAddModel(props.id);
 	};
@@ -78,44 +78,41 @@ const Job = (props) => {
 		<Stack direction="row" sx={stackStyle}>
 			<Box
 				sx={{
-					width: "40%",
 					display: "flex",
-					flexWrap: "wrap",
+					justifyContent: "flex-start",
+					paddingRight: "1%",
+					minHeight: "1rem",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
-					alignItems: "center",
 				}}
 			>
-				{isManager && (
-					<Tooltip title="Add Model" placement="right">
-						<IconButton
-							size="small"
-							sx={{
-								opacity: "25%",
-								"&:hover": {
-									opacity: "65%",
-								},
-							}}
-							onClick={onAdd}
-						>
-							<AddBoxIcon fontSize="sm" />
-						</IconButton>
-					</Tooltip>
-				)}
+				<Paper
+					sx={{
+						...paperStyle,
+						justifyContent: "center",
+						flexWrap: "wrap",
+						minWidth: "1.5rem",
+						alignItems: "center",
+					}}
+				>
+					<Typography variant="body1" sx={{ textAlign: "center" }}>
+						{props.jobId}
+					</Typography>
+				</Paper>
 			</Box>
 			<Box
 				sx={{
 					display: "flex",
-					width: "55%",
+					width: "96%",
 					gap: 1,
-					justifyContent: "center",
 					alignItems: "center",
 				}}
 			>
 				<Box
 					sx={{
 						display: "flex",
-						width: "100%",
+						px: 2,
 						justifyContent: "center",
+						borderRight: "1px solid rgba(0, 0, 0, 0.52)",
 					}}
 				>
 					<Paper
@@ -132,13 +129,64 @@ const Job = (props) => {
 						</Typography>
 					</Paper>
 				</Box>
-				{renderJobModels()}
+
+				<Box
+					sx={{
+						width: "35%",
+						display: "flex",
+						flexWrap: "wrap",
+						borderRight: "1px solid rgba(0, 0, 0, 0.52)",
+						alignItems: "center",
+					}}
+				>
+					{renderJobModels()}
+					{isManager && (
+						<Tooltip title="Add Model" placement="right">
+							<IconButton
+								size="small"
+								sx={{
+									opacity: "25%",
+									"&:hover": {
+										opacity: "65%",
+									},
+								}}
+								onClick={onAdd}
+							>
+								<AddBoxIcon fontSize="sm" />
+							</IconButton>
+						</Tooltip>
+					)}
+				</Box>
+				<Box
+					sx={{
+						width: "50%",
+						display: "flex",
+						flexWrap: "wrap",
+						justifyContent: "center",
+						borderRight: "1px solid rgba(0, 0, 0, 0.52)",
+						alignItems: "center",
+					}}
+				>
+					<Paper
+						sx={{
+							...paperStyle,
+							justifyContent: "center",
+							flexWrap: "wrap",
+							minWidth: "8rem",
+							alignItems: "center",
+						}}
+					>
+						<Typography variant="body1" sx={{ textAlign: "center" }}>
+							{props.location}
+						</Typography>
+					</Paper>
+				</Box>
 				<Box
 					sx={{
 						display: "flex",
-						width: "50%",
-						maxHeight: "1.8rem",
 						justifyContent: "center",
+						minWidth: "15%",
+						borderRight: "1px solid rgba(0, 0, 0, 0.52)",
 					}}
 				>
 					<Paper
@@ -147,11 +195,33 @@ const Job = (props) => {
 							justifyContent: "center",
 							alignItems: "center",
 							width: "auto",
-							minWidth: "4.5rem",
+							minWidth: "6rem",
 						}}
 					>
-						<Typography variant="body1">{props.salary}kr</Typography>
+						<Typography variant="body1">{props.days} days</Typography>
 					</Paper>
+				</Box>
+				<Box
+					sx={{
+						display: "flex",
+						width: "40%",
+						maxHeight: "1.8rem",
+						justifyContent: "center",
+					}}
+				>
+					{props.comments && (
+						<Paper
+							sx={{
+								...paperStyle,
+								justifyContent: "center",
+								alignItems: "center",
+								width: "auto",
+								minWidth: "4.5rem",
+							}}
+						>
+							<Typography variant="body1">{props.comments}</Typography>
+						</Paper>
+					)}
 				</Box>
 			</Box>
 

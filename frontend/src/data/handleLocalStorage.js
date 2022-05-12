@@ -1,6 +1,6 @@
 import { getSeedUsers, seedJobs } from "./seeds";
 
-export const getUsers = (role) => {
+export const readUsers = (role) => {
 	let users = JSON.parse(localStorage.getItem("users"));
 	if (!users) {
 		// updating localStorage with seed data
@@ -15,7 +15,7 @@ export const getUsers = (role) => {
 	return users.filter((user) => user.role.toLowerCase() === role.toLowerCase());
 };
 
-export const getJobs = () => {
+export const readJobs = () => {
 	let jobs = JSON.parse(localStorage.getItem("jobs"));
 	if (!jobs) {
 		localStorage.setItem("jobs", JSON.stringify(seedJobs));
@@ -24,21 +24,21 @@ export const getJobs = () => {
 	return jobs;
 };
 
-export const updateJobs = (jobs) => {
+export const updateLocalJobs = (jobs) => {
 	localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
-export const updateUsers = (users) => {
+export const updateLocalUsers = (users) => {
 	localStorage.setItem("users", JSON.stringify(users));
 };
 
-export const saveUser = (user) => {
+export const saveUserToLocal = (user) => {
 	let users = JSON.parse(localStorage.getItem("users"));
 	users.push(user);
 	localStorage.setItem("users", JSON.stringify(users));
 };
 
-export const getUser = () => {
+export const readUser = () => {
 	let user = JSON.parse(localStorage.getItem("user"));
 	if (!user) return false;
 

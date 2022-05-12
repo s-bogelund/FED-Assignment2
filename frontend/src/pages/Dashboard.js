@@ -10,17 +10,17 @@ import React, { useContext, useEffect, useState } from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
 import JobsList from "../components/Dashboard/JobsList/JobsList";
 import EmployeeList from "../components/Dashboard/EmployeeList";
-import { getJobsBackend } from "../data/fetchStuffJWT";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
 import ChangeJobDialog from "../components/Dashboard/ChangeJobDialog";
 import {
-	getJobs,
-	getUser,
-	getUsers,
-	updateJobs,
+	readJobs,
+	readUser,
+	readUsers,
+	updateLocalJobs,
 } from "../data/handleLocalStorage";
 import AuthContext from "../store/auth-context";
 import { v4 as uuid } from "uuid";
+import { getJobs } from "../data/jobFetching";
 
 const Dashboard = (props) => {
 	const ctx = useContext(AuthContext);
@@ -31,20 +31,20 @@ const Dashboard = (props) => {
 	const [jobToUpdate, setJobToUpdate] = useState(null);
 	const isManager = ctx.loginState.isManager;
 
-	async function getRealJobs() {
-		const backendJobs = await getJobsBackend(ctx.loginState.token);
-		updateJobs(backendJobs);
+	async function fetchJobs() {
+		const backendJobs = await getJobs(ctx.loginState.token);
+		updateLocalJobs(backendJobs);
 	}
 
 	useEffect(() => {
 		async function getData() {
 			if (!isManager) {
-				setUsersToShow(getUsers("model"));
-				console.log(getJobs());
-				const jobs1 = await getRealJobs();
+				setUsersToShow(readUsers("model"));
+				console.log(readJobs());
+				const jobs1 = await fetchJobs();
 				console.log("jobs1", jobs1);
 				const jobsList = jobs.filter((job) =>
-					job.modelName.includes(getUser().name)
+					job.modelName.includes(readUser().name)
 				);
 
 				console.log("jobsList:", jobsList);
@@ -52,8 +52,8 @@ const Dashboard = (props) => {
 			}
 
 			if (isManager) {
-				getRealJobs();
-				const users = getUsers();
+				fetchJobs();
+				const users = readUsers();
 				const sortedUsers = (users) => {
 					const models = users.filter(
 						(user) => user.role.toLowerCase() === "model"
@@ -64,14 +64,14 @@ const Dashboard = (props) => {
 					return [...managers, ...models];
 				};
 				setUsersToShow(sortedUsers(users));
-				setJobs(getJobs());
+				setJobs(readJobs());
 			}
 		}
 		getData();
 	}, []);
 
 	useEffect(() => {
-		updateJobs(jobs);
+		updateLocalJobs(jobs);
 	}, [jobs]);
 
 	const addModelToExistingJob = (model) => {
@@ -84,7 +84,7 @@ const Dashboard = (props) => {
 			return job;
 		});
 
-		setUsersToShow(getUsers());
+		setUsersToShow(readUsers());
 		setJobs(newJobs);
 	};
 

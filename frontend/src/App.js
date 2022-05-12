@@ -10,7 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 // import { getSeedUsers } from "./data/seeds";
-import { getJobs, getUsers, getUser } from "./data/handleLocalStorage";
+import { readJobs, readUsers, readUser } from "./data/handleLocalStorage";
 import AuthContext from "./store/auth-context";
 
 const darkTheme = createTheme({
@@ -66,9 +66,9 @@ function App() {
 	});
 	useEffect(() => {
 		// if localStorage is empty, dummy data will be used
-		setUsers(getUsers());
-		getJobs();
-		const currentUser = getUser();
+		setUsers(readUsers());
+		readJobs();
+		const currentUser = readUser();
 		console.log("currentUser: ", currentUser);
 
 		if (currentUser) {
@@ -81,20 +81,20 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		const users = getUsers();
+		const users = readUsers();
 		setUsers(users);
 		console.log("users: ", users);
 	}, []);
 
 	useEffect(() => {
 		console.log("loginState useEffect called");
-		const user = getUser();
+		const user = readUser();
 		return checkNavBarLinks(user);
 	}, [loginState]);
 
 	const newUserAdded = () => {
 		console.log("newUserAdded called");
-		setUsers(getUsers());
+		setUsers(readUsers());
 	};
 
 	const checkNavBarLinks = (user) => {

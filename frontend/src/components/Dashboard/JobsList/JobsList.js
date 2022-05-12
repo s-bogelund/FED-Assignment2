@@ -12,15 +12,18 @@ import Job from "./Job";
 
 const JobsList = (props) => {
 	const renderJobList = () => {
-		console.log(props);
+		console.log("jobsList props:", props);
 		const jobs = props.jobs.map((job) => {
 			return (
 				<Job
-					id={job.id}
-					key={job.id}
+					jobId={job.jobId}
+					key={job.jobId}
 					models={job.modelName}
 					customer={job.customer}
-					salary={job.salary}
+					starteDate={job.startDate}
+					days={job.days}
+					location={job.location}
+					comments={job.comments}
 					onDeleteJob={props.onDeleteJob}
 					onAddModel={props.onAddModel}
 					onRemoveModel={props.onRemoveModel}
@@ -38,9 +41,7 @@ const JobsList = (props) => {
 				...containerStyle,
 				paddingBottom: 4,
 				paddingTop: 2,
-				flexGrow: 0,
-				width: "100%",
-				minWidth: "580px",
+				flexGrow: 1,
 			}}
 		>
 			<Typography
@@ -52,21 +53,37 @@ const JobsList = (props) => {
 			<Box
 				fullWidth
 				sx={{
+					mb: 0,
 					display: "grid",
-					gridTemplateColumns: "1.5fr 1.4fr .8fr .2fr",
+					gridTemplateColumns: "4% 13% 18% 23.5% 10% 29%",
 				}}
 			>
-				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h6">
+				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h7">
+					ID
+				</Typography>
+				<Typography sx={{ gridColumn: 2, placeSelf: "center" }} variant="h7">
+					Customer
+				</Typography>
+				<Typography sx={{ gridColumn: 3, placeSelf: "center" }} variant="h7">
 					Models Assigned
 				</Typography>
 				<Typography
-					sx={{ gridColumn: 2, placeSelf: "center", paddingLeft: "6%" }}
-					variant="h6"
+					sx={{ gridColumn: 4, placeSelf: "center", pr: "5%" }}
+					variant="h7"
 				>
-					Customer
+					Location
 				</Typography>
-				<Typography sx={{ gridColumn: 3, placeSelf: "center" }} variant="h6">
-					Pay
+				<Typography
+					sx={{ gridColumn: 5, placeSelf: "center", paddingRight: "6%" }}
+					variant="h7"
+				>
+					# Days
+				</Typography>
+				<Typography
+					sx={{ gridColumn: 6, placeSelf: "center", paddingLeft: "10%" }}
+					variant="h7"
+				>
+					Comments
 				</Typography>
 			</Box>
 

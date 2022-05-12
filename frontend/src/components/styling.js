@@ -25,7 +25,7 @@ export const bodyContainer = {
 export const largeBoxStyle = {
 	display: "flex",
 	alignItems: "center",
-	justifyContent: "space-between",
+	justifyContent: "center",
 	my: 11,
 	py: 6,
 	px: 7,

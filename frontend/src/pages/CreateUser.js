@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
-import { saveUser } from "../data/handleLocalStorage";
+import { saveUserToLocal } from "../data/handleLocalStorage";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ const CreateUser = (props) => {
 			address: address,
 		};
 
-		saveUser(newUser);
+		saveUserToLocal(newUser);
 		console.log("onNewUser called");
 		props.onNewUser();
 		navigate("/");
