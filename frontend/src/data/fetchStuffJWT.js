@@ -1,9 +1,9 @@
-export async function loginRequest() {
-	let url = "https://localhost:44368/api/account/login";
+export async function loginRequest(user) {
+	let url = "https://localhost:7181/api/account/login";
 	try {
 		let response = await fetch(url, {
 			method: "POST",
-			body: JSON.stringify(this.form), // Assumes data is in an object called form
+			body: JSON.stringify(user),
 			headers: new Headers({
 				"Content-Type": "application/json",
 			}),
@@ -11,15 +11,17 @@ export async function loginRequest() {
 		if (response.ok) {
 			let token = await response.json();
 			localStorage.setItem("token", token.jwt);
-			// Change view to some other component
-			// …
+			console.log("Ok response: ", response);
+			return { ...user, token: token };
 		} else {
-			alert("Server returned: " + response.statusText);
+			console.log("Not ok response: ", response);
+			// alert("Server returned: " + response.statusText);
+			return false;
 		}
 	} catch (err) {
 		alert("Error: " + err);
+		return false;
 	}
-	return;
 }
 
 // check if user is logged in (This might need testing. Should it return a bool?)
@@ -38,7 +40,7 @@ const isLoggedIn = () => {
 			this.response = responseJson;
 			loggedIn = true;
 		})
-		.catch((error) => alert("Something bad happened: " + error));
+		.catch((error) => alert("Something bad happened:", error));
 
 	return loggedIn;
 };

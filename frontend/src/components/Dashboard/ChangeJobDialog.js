@@ -9,11 +9,14 @@ import {
 	ListItem,
 	TextField,
 } from "@mui/material";
+import { getSuggestedQuery } from "@testing-library/react";
 import React, { useContext, useState } from "react";
+import { getUser } from "../../data/handleLocalStorage";
 import AuthContext from "../../store/auth-context";
 
 const ChangeJobDialog = (props) => {
 	const [expense, setExpense] = useState(0);
+	const [description, setDescription] = useState("");
 	const ctx = useContext(AuthContext);
 	const isManager = ctx.loginState.isManager;
 
@@ -22,7 +25,14 @@ const ChangeJobDialog = (props) => {
 	};
 
 	const handleAddExpense = () => {
-		props.onAddExpense(expense);
+		const user = getUser();
+		console.log("User id : ", user.name);
+		props.onAddExpense({
+			expense: expense,
+			date: new Date(),
+			description: description,
+			user: user,
+		});
 	};
 
 	const modelList = props.models.map((model) => {
@@ -46,6 +56,7 @@ const ChangeJobDialog = (props) => {
 			}}
 		>
 			<DialogTitle>{props.title}</DialogTitle>
+			{/* // What the manager sees */}
 			{isManager && (
 				<DialogContent>
 					<DialogContentText>
@@ -54,8 +65,9 @@ const ChangeJobDialog = (props) => {
 					<List>{modelList}</List>
 				</DialogContent>
 			)}
+			{/* What a model sees */}
 			{!isManager && (
-				<DialogContent>
+				<DialogContent sx={{ display: "flex", flexDirection: "column" }}>
 					<DialogContentText>
 						The expense will be added on the the total salary for the job to
 						account for any personal expenses you may have.
@@ -66,6 +78,14 @@ const ChangeJobDialog = (props) => {
 						type="number"
 						variant="outlined"
 						onInput={(event) => setExpense(event.target.value)}
+						sx={{ mt: 5 }}
+					/>
+					<TextField
+						id="description"
+						label="Add Description"
+						type="text"
+						variant="outlined"
+						onInput={(event) => setDescription(event.target.value)}
 						sx={{ mt: 5 }}
 					/>
 					<DialogActions>

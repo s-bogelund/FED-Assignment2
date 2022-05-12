@@ -145,7 +145,7 @@ const Dashboard = (props) => {
 
 		const newJobs = jobs.map((job) => {
 			if (job.id === jobToUpdate) {
-				job.salary = +job.salary + +expense;
+				job.salary = +job.salary + +expense.expense;
 			}
 			return job;
 		});

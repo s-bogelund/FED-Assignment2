@@ -11,7 +11,9 @@ import {
 import React, { useState, useReducer, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
+import { loginRequest } from "../data/fetchStuffJWT";
 import { getUsers } from "../data/handleLocalStorage";
+import jwt_decode from "jwt-decode";
 import AuthContext from "../store/auth-context";
 
 const emailReducer = (state, action) => {
@@ -81,17 +83,38 @@ const Login = (props) => {
 		severity: "",
 	});
 
-	const handleLoginSubmit = (event) => {
+	const handleLoginSubmit = async (event) => {
 		event.preventDefault();
 		if (!isValidFormat()) return;
+		console.log("emailState:", emailState);
+		console.log("passwordState:", passwordState);
+		console.log("returning...");
 
-		const users = getUsers();
-		const user = users.find((user) => user.email === emailState.value);
+		if (!isValidFormat) return;
 
-		if (!validateInfo(user)) return;
+		let user = { email: emailState.value, password: passwordState.value };
+		user = await loginRequest(user);
+
+		console.log("user:", user);
+		// if the login failed
+		validateInfo(user);
+		if (!user) return;
+
+		const decode = jwt_decode(user.token.jwt);
+		console.log("decode:", decode);
+
+		let role = "Model";
+		if (JSON.stringify(decode).toLowerCase().includes("manager")) {
+			role = "Manager";
+		}
+
+		user = { ...user, role: role };
+		console.log("user at the end:", user);
 
 		navigate("/dashboard");
 		props.onLogin(user);
+
+		// // const user = users.find((user) => user.email === emailState.value);
 
 		dispatchEmail({ type: "SET_EMAIL", payload: "" });
 		dispatchPassword({ type: "SET_PASSWORD", payload: "" });
@@ -199,7 +222,7 @@ const Login = (props) => {
 		if (!user) {
 			dispatchToast({
 				type: "SET_TOAST",
-				payload: "User with that email not found",
+				payload: "The information could not be validated",
 				severity: "error",
 			});
 			return false;

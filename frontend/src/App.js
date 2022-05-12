@@ -15,7 +15,7 @@ import AuthContext from "./store/auth-context";
 
 const darkTheme = createTheme({
 	palette: {
-		mode: "dark",	
+		mode: "dark",
 	},
 });
 
@@ -29,18 +29,15 @@ const modelLinks = [{ name: "Dashboard", link: "dashboard" }];
 const loginReducer = (state, action) => {
 	switch (action.type) {
 		case "LOGIN":
-			console.log(
-				"Is this a manager: ",
-				action.payload.role.toLowerCase() === "manager"
-			);
+			console.log(action);
 			localStorage.setItem("user", JSON.stringify(action.payload));
-			// localStorage.setItem("token", action.payload.token); // not implemented yet
+			localStorage.setItem("token", action.payload.token); // not implemented yet
 			return {
 				...state,
 				isLoggedIn: true,
 				user: action.payload,
 				isManager: action.payload.role.toLowerCase() === "manager",
-				// token: action.payload.token,
+				token: action.payload.token,
 			};
 		case "LOGOUT":
 			localStorage.removeItem("user");
@@ -48,7 +45,7 @@ const loginReducer = (state, action) => {
 				...state,
 				isLoggedIn: false,
 				user: null,
-				// token: null
+				token: null,
 			};
 		default:
 	}
@@ -107,11 +104,8 @@ function App() {
 
 		const role = user.role;
 
-		if (role.toLowerCase() === "manager") {
-			setNavbarLinks(managerLinks);
-		} else {
-			return setNavbarLinks(modelLinks);
-		}
+		if (role && role.toLowerCase() === "manager") setNavbarLinks(managerLinks);
+		else setNavbarLinks(modelLinks);
 	};
 
 	const handleAuthentication = (user) => {
