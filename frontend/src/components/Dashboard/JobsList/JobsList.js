@@ -12,7 +12,6 @@ import Job from "./Job";
 
 const JobsList = (props) => {
 	const renderJobList = () => {
-		console.log("jobsList props:", props);
 		const jobs = props.jobs.map((job) => {
 			return (
 				<Job
@@ -55,7 +54,7 @@ const JobsList = (props) => {
 				sx={{
 					mb: 0,
 					display: "grid",
-					gridTemplateColumns: "4% 13% 18% 23.5% 10% 29%",
+					gridTemplateColumns: "4% 16% 18% 23.5% 9% 14% 15%",
 				}}
 			>
 				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h7">
@@ -74,13 +73,13 @@ const JobsList = (props) => {
 					Location
 				</Typography>
 				<Typography
-					sx={{ gridColumn: 5, placeSelf: "center", paddingRight: "6%" }}
+					sx={{ gridColumn: 5, placeSelf: "start", paddingLeft: 2 }}
 					variant="h7"
 				>
-					# Days
+					Days
 				</Typography>
 				<Typography
-					sx={{ gridColumn: 6, placeSelf: "center", paddingLeft: "10%" }}
+					sx={{ gridColumn: 6, placeSelf: "end", paddingLeft: "10%" }}
 					variant="h7"
 				>
 					Comments

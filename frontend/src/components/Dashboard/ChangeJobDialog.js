@@ -26,7 +26,6 @@ const ChangeJobDialog = (props) => {
 
 	const handleAddExpense = () => {
 		const user = readUser();
-		console.log("User id : ", user.name);
 		props.onAddExpense({
 			expense: expense,
 			date: new Date(),
@@ -43,7 +42,7 @@ const ChangeJobDialog = (props) => {
 		);
 	});
 
-	console.log("dialog props: ", props);
+	// console.log("dialog props: ", props);
 
 	return (
 		<Dialog

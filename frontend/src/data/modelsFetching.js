@@ -10,9 +10,8 @@ export const getAllModels = async () => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
 			response = await response.json();
-			console.log(response);
+			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
 			alert("Server returned: " + response.statusText);
@@ -61,9 +60,8 @@ export const getModel = async (modelId) => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
 			response = await response.json();
-			console.log(response);
+			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
 			alert("Server returned: " + response.statusText);
@@ -86,9 +84,8 @@ export const getModelWithJobs = async (modelId) => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
 			response = await response.json();
-			console.log(response);
+			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
 			alert("Server returned: " + response.statusText);

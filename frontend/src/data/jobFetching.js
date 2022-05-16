@@ -1,4 +1,4 @@
-export const getJobs = async (token) => {
+export const getJobs = async () => {
 	var url = "https://localhost:7181/api/Jobs";
 	let response = false;
 	try {
@@ -10,9 +10,8 @@ export const getJobs = async (token) => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
 			response = await response.json();
-			console.log(response);
+			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
 			alert("Server returned: " + response.statusText);

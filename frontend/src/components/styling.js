@@ -11,7 +11,8 @@ export const containerStyle = {
 
 export const bodyContainer = {
 	margin: 0,
-	marginTop: 6,
+	marginTop: 0,
+	pt: 5,
 	px: 2,
 	background:
 		"linear-gradient(186deg, rgba(10,25,41,0.85) 0%, rgba(10,25,41,0.5) 65%, rgba(10,25,41,0.3) 100%)",

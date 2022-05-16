@@ -13,8 +13,6 @@ import React, { useEffect, useState } from "react";
 import { readUsers, updateLocalJobs } from "../../data/handleLocalStorage";
 
 const CreateJob = (props) => {
-	const [modelOptions, setModelOptions] = useState(readUsers("model"));
-
 	const [newJob, setNewJob] = useState({
 		customer: "",
 		startDate: "",
@@ -28,7 +26,6 @@ const CreateJob = (props) => {
 		console.log("new job:", newJob);
 		const success = await createJob(newJob);
 		if (success) {
-			console.log("success:", success);
 			updateLocalJobs(newJob);
 		}
 		// props.onNewJob(customer, salary, chosenModels);
@@ -42,9 +39,6 @@ const CreateJob = (props) => {
 
 		props.onNewJob(newJob);
 	};
-	useEffect(() => {
-		console.log("modelOptions: ", modelOptions);
-	}, [modelOptions]);
 
 	// autocomplete
 	// const handleModelSelected = (event, value) => {
@@ -83,7 +77,6 @@ const CreateJob = (props) => {
 						<TextField
 							onChange={(event) => {
 								setNewJob({ ...newJob, startDate: event.target.value });
-								console.log(event.target.value);
 							}}
 							sx={{ width: "48%" }}
 							value={newJob.startDate}

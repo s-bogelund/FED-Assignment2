@@ -21,25 +21,43 @@ import {
 import AuthContext from "../store/auth-context";
 import { v4 as uuid } from "uuid";
 import { getJobs } from "../data/jobFetching";
+import ExpensesList from "../components/Dashboard/ExpensesList";
+import { getExpenses } from "../data/expensesFetching";
+import { getAllModels } from "../data/modelsFetching";
 
 const Dashboard = (props) => {
 	const ctx = useContext(AuthContext);
 	const [jobs, setJobs] = useState([]);
-	const [usersToShow, setUsersToShow] = useState([]);
+	const [models, setModels] = useState([]);
 	const [showDialog, setShowDialog] = useState(false);
 	const [availableModels, setAvailableModels] = useState([]);
 	const [jobToUpdate, setJobToUpdate] = useState(null);
+	const [expenses, setExpenses] = useState([]);
 	const isManager = ctx.loginState.isManager;
 
 	async function fetchJobs() {
-		const backendJobs = await getJobs(ctx.loginState.token);
+		const backendJobs = await getJobs();
+		console.log("Dashboard jobs:", backendJobs);
+		setJobs(backendJobs);
 		updateLocalJobs(backendJobs);
+	}
+
+	async function fetchModels() {
+		const models = await getAllModels();
+		console.log("Dashboard models:", models);
+		setModels(models);
+	}
+
+	async function fetchExpenses() {
+		const expenses = await getExpenses();
+		console.log("Dashboard expenses:", expenses);
+		setExpenses(expenses);
 	}
 
 	useEffect(() => {
 		async function getData() {
 			if (!isManager) {
-				setUsersToShow(readUsers("model"));
+				setModels(readUsers("model"));
 				console.log(readJobs());
 				const jobs1 = await fetchJobs();
 				console.log("jobs1", jobs1);
@@ -53,18 +71,19 @@ const Dashboard = (props) => {
 
 			if (isManager) {
 				fetchJobs();
-				const users = readUsers();
-				const sortedUsers = (users) => {
-					const models = users.filter(
-						(user) => user.role.toLowerCase() === "model"
-					);
-					const managers = users.filter(
-						(user) => user.role.toLowerCase() === "manager"
-					);
-					return [...managers, ...models];
-				};
-				setUsersToShow(sortedUsers(users));
-				setJobs(readJobs());
+				fetchModels();
+				fetchExpenses();
+				// const users = readUsers();
+				// const sortedUsers = (users) => {
+				// 	const models = users.filter(
+				// 		(user) => user.role.toLowerCase() === "model"
+				// 	);
+				// 	const managers = users.filter(
+				// 		(user) => user.role.toLowerCase() === "manager"
+				// 	);
+				// 	return [...managers, ...models];
+				// };
+				// setJobs(readJobs());
 			}
 		}
 		getData();
@@ -84,7 +103,7 @@ const Dashboard = (props) => {
 			return job;
 		});
 
-		setUsersToShow(readUsers());
+		setModels(readUsers());
 		setJobs(newJobs);
 	};
 
@@ -103,7 +122,7 @@ const Dashboard = (props) => {
 		const job = jobs?.find((job) => job.id === jobId);
 		setJobToUpdate(job.id);
 
-		const availableModels = usersToShow.filter((model) => {
+		const availableModels = models.filter((model) => {
 			return !job?.modelName?.includes(model?.name);
 		});
 
@@ -204,8 +223,9 @@ const Dashboard = (props) => {
 					/>
 					<EmployeeList
 						title={isManager ? "Employee List" : "Models"}
-						models={usersToShow}
+						models={models}
 					/>
+					<ExpensesList expenses={expenses} models={models} />
 				</Box>
 			</Container>
 		</React.Fragment>

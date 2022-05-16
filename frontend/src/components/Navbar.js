@@ -15,7 +15,6 @@ const Navbar = (props) => {
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
-		console.log("handleLogout");
 		props.onLogout();
 		navigate("/");
 	};

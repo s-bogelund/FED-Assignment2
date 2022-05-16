@@ -8,20 +8,76 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	Tooltip,
 	Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../../data/handleLocalStorage";
+import { readUsers, updateLocalUsers } from "../../data/handleLocalStorage";
 import { containerStyle } from "../styling";
 import { v4 as uuid } from "uuid";
+import { getAllModels, getModel } from "../../data/modelsFetching";
+
+const hoverEffect = {
+	transition: "all 0.15s ease-in-out",
+	"&:hover": {
+		transform: "scale(1.05)",
+		boxShadow: "0px 0px 12px rgba(255, 255, 255, 0.25)",
+	},
+};
 
 const EmployeeList = (props) => {
 	const [models, setModels] = useState(props.models);
+	const [hoverName, setHoverName] = useState("");
+	const [hoverModel, setHoverModel] = useState("");
+
+	console.log(props);
 
 	useEffect(() => {
-		console.log(props.models);
 		setModels(props.models);
+		updateLocalUsers(props.models);
 	}, [props.models]);
+
+	useEffect(() => {
+		const models = readUsers();
+		// find the model with the same name as the one in the state
+		if (hoverName.length < 1) return;
+		const model = models?.find(
+			(model) =>
+				hoverName.includes(model.firstName) &&
+				hoverName.includes(model.lastName)
+		);
+
+		const ignoredAttrs = [
+			"firstname",
+			"lastname",
+			"addres",
+			"email",
+			"comments",
+			"phoneno",
+		];
+
+		const printModelKeyValuePairs = (obj) => {
+			//ugly - sorry
+			let result = "";
+			for (const [key, value] of Object.entries(obj)) {
+				if (key.toString().toLowerCase().includes(ignoredAttrs[0])) continue;
+				if (key.toString().toLowerCase().includes(ignoredAttrs[1])) continue;
+				if (key.toString().toLowerCase().includes(ignoredAttrs[2])) continue;
+				if (key.toString().toLowerCase().includes(ignoredAttrs[3])) continue;
+				if (key.toString().toLowerCase().includes(ignoredAttrs[4])) continue;
+				if (key.toString().toLowerCase().includes(ignoredAttrs[5])) continue;
+				result += `${key}: ${value}`;
+				result += ", ";
+			}
+			return <Typography variant="body2">{result}</Typography>;
+		};
+
+		setHoverModel(printModelKeyValuePairs(model));
+	}, [hoverName]);
+
+	const handleNameHover = (event) => {
+		setHoverName(event.target.innerText);
+	};
 
 	return (
 		<Container
@@ -41,7 +97,7 @@ const EmployeeList = (props) => {
 						<TableCell align="center">Email</TableCell>
 						<TableCell align="center">Phone</TableCell>
 						<TableCell align="center">Address</TableCell>
-						<TableCell align="center">Role</TableCell>
+						<TableCell align="center">Comments</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -52,20 +108,27 @@ const EmployeeList = (props) => {
 								"&:last-child td, &:last-child th": { border: 0 },
 							}}
 						>
-							<TableCell component="th" scope="row" sx={{ width: "10%" }}>
-								{model.name}
-							</TableCell>
+							<Tooltip placement="right" title={hoverModel}>
+								<TableCell
+									component="th"
+									scope="row"
+									sx={{ width: "10%", cursor: "pointer", ...hoverEffect }}
+									onMouseEnter={handleNameHover}
+								>
+									{model.firstName + " " + model.lastName}
+								</TableCell>
+							</Tooltip>
 							<TableCell align="center" sx={{ width: "10%" }}>
 								{model.email}
 							</TableCell>
 							<TableCell align="center" sx={{ width: "10%" }}>
-								{model.phone}
+								{model.phoneNo}
 							</TableCell>
 							<TableCell align="center" sx={{ width: "10%" }}>
-								{model.address}
+								{model.addresLine1}
 							</TableCell>
-							<TableCell align="center" sx={{ width: "10%" }}>
-								{model.role}
+							<TableCell align="center" sx={{ width: "25%" }}>
+								{model.comments}
 							</TableCell>
 						</TableRow>
 					))}

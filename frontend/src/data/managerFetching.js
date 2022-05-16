@@ -46,6 +46,7 @@ export const addManager = async (manager) => {
 	} catch (err) {
 		alert("Error: " + err);
 	}
+	if (response) console.log("Manager added: ", response);
 	return response;
 };
 

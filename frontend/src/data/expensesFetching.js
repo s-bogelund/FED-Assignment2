@@ -1,4 +1,4 @@
-export const GetExpenses = async () => {
+export const getExpenses = async () => {
 	var url = `https://localhost:7181/api/Expenses`;
 	let response = false;
 	try {
@@ -10,9 +10,8 @@ export const GetExpenses = async () => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
 			response = await response.json();
-			console.log(response);
+			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
 			alert("Server returned: " + response.statusText);
@@ -23,7 +22,7 @@ export const GetExpenses = async () => {
 	return response;
 };
 
-export const CreateExpense = async (expense) => {
+export const createExpense = async (expense) => {
 	var url = `https://localhost:7181/api/Expenses`;
 	let response = false;
 	try {
@@ -49,7 +48,7 @@ export const CreateExpense = async (expense) => {
 	return response;
 };
 
-export const GetExpense = async (expenseId) => {
+export const getExpense = async (expenseId) => {
 	var url = `https://localhost:7181/api/Expenses/${expenseId}`;
 	let response = false;
 	try {

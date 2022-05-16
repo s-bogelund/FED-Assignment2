@@ -29,7 +29,6 @@ const modelLinks = [{ name: "Dashboard", link: "dashboard" }];
 const loginReducer = (state, action) => {
 	switch (action.type) {
 		case "LOGIN":
-			console.log(action);
 			localStorage.setItem("user", JSON.stringify(action.payload));
 			localStorage.setItem("token", action.payload.token);
 			return {
@@ -69,7 +68,6 @@ function App() {
 		setUsers(readUsers());
 		readJobs();
 		const currentUser = readUser();
-		console.log("currentUser: ", currentUser);
 
 		if (currentUser) {
 			console.log("On load useEffect called");
@@ -83,11 +81,9 @@ function App() {
 	useEffect(() => {
 		const users = readUsers();
 		setUsers(users);
-		console.log("users: ", users);
 	}, []);
 
 	useEffect(() => {
-		console.log("loginState useEffect called");
 		const user = readUser();
 		return checkNavBarLinks(user);
 	}, [loginState]);
