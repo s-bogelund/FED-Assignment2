@@ -125,7 +125,7 @@ const CreateModel = (props) => {
 						<TextField
 							fullWidth
 							onInput={(event) =>
-								setUser({ ...user, addressLine1: event.target.value })
+								setUser({ ...user, addresLine1: event.target.value })
 							}
 							type="text"
 							margin="normal"
@@ -137,7 +137,7 @@ const CreateModel = (props) => {
 						<TextField
 							fullWidth
 							onInput={(event) =>
-								setUser({ ...user, addressLine2: event.target.value })
+								setUser({ ...user, addresLine2: event.target.value })
 							}
 							type="text"
 							margin="normal"
