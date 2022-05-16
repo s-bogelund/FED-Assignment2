@@ -15,7 +15,7 @@ const Home = () => {
 			return "You are not logged in!";
 		}
 		if (isLoggedIn) {
-			return `Hello ${user.email}!`;
+			return `Hello ${user.firstName ? user.firstName : user.email}!`;
 		}
 	};
 	const homeBody = () => {

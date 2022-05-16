@@ -13,7 +13,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { readUsers } from "../../data/handleLocalStorage";
-import { containerStyle } from "../styling";
+import { containerStyle, hoverEffect } from "../styling";
 
 const ExpensesList = (props) => {
 	const [expenses, setExpenses] = useState(props.expenses);
@@ -26,6 +26,14 @@ const ExpensesList = (props) => {
 		setExpenses(props.expenses);
 		setModels(props.models);
 	}, [props.expenses]);
+
+	const idHover = {
+		...hoverEffect,
+		"&:hover": {
+			backgroundColor: "#f5f5f502",
+			fontSize: "1.1rem",
+		},
+	};
 
 	const getModelName = (modelId) => {
 		const model = readUsers().find((model) => model.id === modelId);
@@ -78,7 +86,7 @@ const ExpensesList = (props) => {
 								<TableCell
 									onMouseEnter={handleOnMouseEnter}
 									align="center"
-									sx={{ width: "10%", cursor: "pointer" }}
+									sx={{ ...idHover, width: "10%", cursor: "pointer" }}
 								>
 									{expense.modelId}
 								</TableCell>

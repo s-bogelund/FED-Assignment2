@@ -34,3 +34,11 @@ export const largeBoxStyle = {
 	borderRadius: 4,
 	boxShadow: "0 0 9px rgba(120, 120, 120, 0.15)",
 };
+
+export const hoverEffect = {
+	transition: "all 0.15s ease-in-out",
+	"&:hover": {
+		transform: "scale(1.05)",
+		boxShadow: "0px 0px 12px rgba(255, 255, 255, 0.25)",
+	},
+};

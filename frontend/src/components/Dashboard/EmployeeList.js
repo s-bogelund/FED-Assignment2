@@ -13,15 +13,14 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { readUsers, updateLocalUsers } from "../../data/handleLocalStorage";
-import { containerStyle } from "../styling";
+import { containerStyle, hoverEffect } from "../styling";
 import { v4 as uuid } from "uuid";
 import { getAllModels, getModel } from "../../data/modelsFetching";
 
-const hoverEffect = {
-	transition: "all 0.15s ease-in-out",
+const nameHover = {
+	...hoverEffect,
 	"&:hover": {
-		transform: "scale(1.05)",
-		boxShadow: "0px 0px 12px rgba(255, 255, 255, 0.25)",
+		backgroundColor: "#f5f5f504",
 	},
 };
 
@@ -112,7 +111,7 @@ const EmployeeList = (props) => {
 								<TableCell
 									component="th"
 									scope="row"
-									sx={{ width: "10%", cursor: "pointer", ...hoverEffect }}
+									sx={{ width: "10%", cursor: "pointer", ...nameHover }}
 									onMouseEnter={handleNameHover}
 								>
 									{model.firstName + " " + model.lastName}
