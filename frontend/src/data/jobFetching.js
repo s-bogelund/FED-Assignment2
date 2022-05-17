@@ -14,7 +14,7 @@ export const getJobs = async () => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
 		alert("Error: " + err);
@@ -41,7 +41,7 @@ export const createJob = async (job) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
 		alert("Error: " + err);
@@ -66,7 +66,7 @@ export const getJobInfo = async (jobId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
 		alert("Error: " + err);
@@ -91,7 +91,7 @@ export const deleteJob = async (jobId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
 		alert("Error: " + err);
@@ -142,7 +142,7 @@ export const AddModelToJob = async (jobId, modelId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
 		alert("Error: " + err);
@@ -155,7 +155,7 @@ export const RemoveModelFromJob = async (jobId, modelId) => {
 	let response = false;
 	try {
 		response = await fetch(url, {
-			method: "POST",
+			method: "DELETE",
 			headers: new Headers({
 				Authorization: "Bearer " + localStorage.getItem("token"),
 				"Content-Type": "application/json",
@@ -167,10 +167,9 @@ export const RemoveModelFromJob = async (jobId, modelId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		// alert("Error: " + err);
 	}
 	return response;
 };

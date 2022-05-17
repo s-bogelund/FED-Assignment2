@@ -8,7 +8,7 @@ export const readUsers = (role) => {
 		return getSeedUsers("all");
 	}
 	if (!role) {
-		console.log("returning all users");
+		// console.log("returning all users");
 		return users;
 	}
 

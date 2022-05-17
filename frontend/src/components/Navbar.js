@@ -19,7 +19,6 @@ const Navbar = (props) => {
 		navigate("/");
 	};
 
-	console.log(props.links);
 	return (
 		<AppBar
 			enableColorOnDark

@@ -5,6 +5,9 @@ import AuthContext from "../../../store/auth-context";
 
 const JobModels = (props) => {
 	const [isHovering, setIsHovering] = useState(false);
+	const [modelName, setModelName] = useState(
+		props.model.firstName + " " + props.model.lastName
+	);
 	const ctx = useContext(AuthContext);
 	const isManager = ctx.loginState.isManager;
 
@@ -15,7 +18,7 @@ const JobModels = (props) => {
 		backgroundColor: "rgba(255, 255, 255, 0.03)",
 		borderRadius: 1,
 		border: "1px solid rgba(0, 0, 0, 0.52)",
-		px: 1,
+		px: 0.25,
 		height: "2rem",
 		m: 0.25,
 	};
@@ -23,15 +26,15 @@ const JobModels = (props) => {
 	return (
 		<React.Fragment>
 			{isManager && (
-				<Tooltip title="Click to remove" placement="top">
+				<Tooltip title="Click to remove" placement="right">
 					<Paper
 						onMouseEnter={() => setIsHovering(true)}
 						onMouseLeave={() => setIsHovering(false)}
-						onClick={() => props.onDelete(props.model)}
+						onClick={() => props.onDelete(props.model.email)}
 						sx={{
 							...paperStyle,
 							cursor: "pointer",
-							width: props.model.length * 12 + "px",
+							minWidth: "10rem",
 							"&:hover": {
 								backgroundColor: "rgba(255, 25, 25, 0.45)",
 							},
@@ -39,7 +42,7 @@ const JobModels = (props) => {
 					>
 						{isHovering && <RemoveCircleOutlineIcon size="sm" />}
 						{!isHovering && (
-							<Typography variant="body1">{props.model}</Typography>
+							<Typography variant="body1">{modelName}</Typography>
 						)}
 					</Paper>
 				</Tooltip>
@@ -50,10 +53,10 @@ const JobModels = (props) => {
 						sx={{
 							...paperStyle,
 							cursor: "pointer",
-							width: props.model.length * 12 + "px",
+							width: modelName.length * 12 + "px",
 						}}
 					>
-						<Typography variant="body1">{props.model}</Typography>
+						<Typography variant="body1">{modelName}</Typography>
 					</Paper>
 				</Tooltip>
 			)}

@@ -16,7 +16,8 @@ import AuthContext from "../../../store/auth-context";
 import { ClassNames } from "@emotion/react";
 const stackStyle = {
 	display: "grid",
-	gridTemplateColumns: "4% 16% 16% 25% 7% 27% 5%",
+	gridTemplateColumns: "4% 13% 23% 28% 10% 18%",
+	gap: 0.25,
 	placeItems: "center",
 	border: "1px solid rgba(0, 0, 0, 0.52)",
 	borderRadius: 1,
@@ -35,32 +36,48 @@ const paperStyle = {
 	border: "1px solid rgba(0, 0, 0, 0.52)",
 };
 
-
-
 const Job = (props) => {
 	const ctx = useContext(AuthContext);
 	const isManager = ctx.loginState.isManager;
 
+	const stackStyle = {
+		display: "grid",
+		gridTemplateColumns: "4% 13% 23% 28% 10% 18%",
+		gap: 0.25,
+		placeItems: "center",
+		border: "1px solid rgba(0, 0, 0, 0.52)",
+		borderRadius: 1,
+		px: 1,
+		py: 0.4,
+		margin: 0.3,
+		my: 0.5,
+		background: "#0c172341",
+		width: isManager ? "auto" : "100%",
+	};
+
+	// console.log("job props", props);
 	const onAdd = () => {
-		props.onAddModel(props.id);
+		console.log("adding to props.jobId:", props.jobId);
+		props.onAddModel(props.jobId);
 	};
 
 	const onDeleteJob = () => {
-		props.onDeleteJob(props.id);
+		console.log("deleting job:", props.jobId);
+		props.onDeleteJob(props.jobId);
 	};
 
-	const onRemoveModel = (model) => {
+	const onRemoveModel = (email) => {
 		if (!isManager) return;
-		props.onRemoveModel(model, props.id);
+		console.log("removing model with email:", email, "from job:", props.jobId);
+		props.onRemoveModel(email, props.jobId);
 	};
 
 	const onAddExpense = () => {
-		props.onAddExpense(props.id);
+		props.onAddExpense(props.jobId);
 	};
 
 	const renderJobModels = () => {
 		if (!props.models) {
-			// console.log("no models");
 			return;
 		}
 		const jobModels = props.models.map((model) => {
@@ -79,12 +96,11 @@ const Job = (props) => {
 		<Stack direction="row" sx={stackStyle}>
 			<Box
 				sx={{
-					gridColumn: "0",
+					gridColumn: "1",
 					placeSelf: "center start",
 					display: "flex",
 					justifyContent: "flex-start",
 					paddingRight: "25%",
-					marginRight: "5%",
 					minHeight: "1rem",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
 				}}
@@ -105,7 +121,7 @@ const Job = (props) => {
 			</Box>
 			<Box
 				sx={{
-					px: 2,
+					px: 1,
 					gridColumn: "2",
 					placeSelf: "center",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
@@ -126,51 +142,52 @@ const Job = (props) => {
 				</Paper>
 			</Box>
 
-			<Box
-				sx={{
-					gridColumn: "3",
-					display: "grid",
-					placeItems: "start",
-					flexWrap: "wrap",
-				}}
-			>
-				{renderJobModels()}
-				{isManager && (
-					<Tooltip title="Add Model" placement="right">
-						<IconButton
-							size="small"
-							sx={{
-								opacity: "25%",
-								"&:hover": {
-									opacity: "65%",
-								},
-							}}
-							onClick={onAdd}
-						>
-							<AddBoxIcon fontSize="sm" />
-						</IconButton>
-					</Tooltip>
-				)}
-			</Box>
+			{isManager && (
+				<Box
+					sx={{
+						gridColumn: "3",
+						display: "grid",
+						placeItems: "center",
+						flexWrap: "wrap",
+					}}
+				>
+					{renderJobModels()}
+					{isManager && (
+						<Tooltip title="Add Model" placement="right">
+							<IconButton
+								size="small"
+								sx={{
+									opacity: "25%",
+									"&:hover": {
+										opacity: "65%",
+									},
+								}}
+								onClick={onAdd}
+							>
+								<AddBoxIcon fontSize="sm" />
+							</IconButton>
+						</Tooltip>
+					)}
+				</Box>
+			)}
 			<Box
 				sx={{
 					gridColumn: "4",
 					display: "flex",
 					justifyContent: "center",
-					px: 2,
+					px: 6,
 					flexWrap: "wrap",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
 					borderLeft: "1px solid rgba(0, 0, 0, 0.52)",
-					maxWidth: "9rem",
+					width: "100%",
 				}}
 			>
 				<Paper
 					sx={{
 						...paperStyle,
 						justifyContent: "center",
-						flexWrap: "wrap",
-						minWidth: "8rem",
 						alignItems: "center",
+						px: 2,
 					}}
 				>
 					<Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -258,6 +275,7 @@ const Job = (props) => {
 					<IconButton
 						size="small"
 						sx={{
+							gridColumn: "7",
 							opacity: "45%",
 							"&:hover": {
 								opacity: "85%",

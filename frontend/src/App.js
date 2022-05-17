@@ -70,7 +70,7 @@ function App() {
 		const currentUser = readUser();
 
 		if (currentUser) {
-			console.log("On load useEffect called");
+			// console.log("On load useEffect called");
 			checkNavBarLinks(currentUser);
 			dispatchLogin({ type: "LOGIN", payload: currentUser });
 		}

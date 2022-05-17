@@ -11,15 +11,16 @@ import { containerStyle } from "../../styling";
 import Job from "./Job";
 
 const JobsList = (props) => {
+	// console.log("JobsList props:", props);
 	const renderJobList = () => {
 		const jobs = props.jobs.map((job) => {
 			return (
 				<Job
 					jobId={job.jobId}
 					key={job.jobId}
-					models={job.modelName}
+					models={job.models}
 					customer={job.customer}
-					starteDate={job.startDate}
+					startDate={job.startDate}
 					days={job.days}
 					location={job.location}
 					comments={job.comments}
@@ -35,7 +36,6 @@ const JobsList = (props) => {
 
 	return (
 		<Container
-			maxWidth="lg"
 			sx={{
 				...containerStyle,
 				paddingBottom: 4,
@@ -44,7 +44,12 @@ const JobsList = (props) => {
 			}}
 		>
 			<Typography
-				sx={{ display: "flex", justifyContent: "center", marginBottom: 2 }}
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					mb: 5,
+					mt: 2,
+				}}
 				variant="h5"
 			>
 				Jobs Overview
@@ -54,7 +59,7 @@ const JobsList = (props) => {
 				sx={{
 					mb: 0,
 					display: "grid",
-					gridTemplateColumns: "4% 16% 18% 23.5% 9% 14% 15%",
+					gridTemplateColumns: "4% 15% 21% 29% 14% 10%",
 				}}
 			>
 				<Typography sx={{ gridColumn: 1, placeSelf: "center" }} variant="h7">
@@ -73,13 +78,13 @@ const JobsList = (props) => {
 					Location
 				</Typography>
 				<Typography
-					sx={{ gridColumn: 5, placeSelf: "start", paddingLeft: 2 }}
+					sx={{ gridColumn: 5, placeSelf: "start", paddingLeft: 3.2 }}
 					variant="h7"
 				>
 					Days
 				</Typography>
 				<Typography
-					sx={{ gridColumn: 6, placeSelf: "end", paddingLeft: "10%" }}
+					sx={{ gridColumn: 6, placeSelf: "center", pr: 1 }}
 					variant="h7"
 				>
 					Comments

@@ -20,9 +20,13 @@ import {
 } from "../data/handleLocalStorage";
 import AuthContext from "../store/auth-context";
 import { v4 as uuid } from "uuid";
-import { getJobs } from "../data/jobFetching";
+import {
+	AddModelToJob,
+	getJobs,
+	RemoveModelFromJob,
+} from "../data/jobFetching";
 import ExpensesList from "../components/Dashboard/ExpensesList";
-import { getExpenses } from "../data/expensesFetching";
+import { getExpenses, createExpense } from "../data/expensesFetching";
 import { getAllModels } from "../data/modelsFetching";
 
 const Dashboard = (props) => {
@@ -37,54 +41,30 @@ const Dashboard = (props) => {
 
 	async function fetchJobs() {
 		const backendJobs = await getJobs();
-		console.log("Dashboard jobs:", backendJobs);
+		// console.log("Dashboard jobs:", backendJobs);
 		setJobs(backendJobs);
 		updateLocalJobs(backendJobs);
 	}
 
 	async function fetchModels() {
 		const models = await getAllModels();
-		console.log("Dashboard models:", models);
+		// console.log("Dashboard models:", models);
 		setModels(models);
 	}
 
 	async function fetchExpenses() {
 		const expenses = await getExpenses();
-		console.log("Dashboard expenses:", expenses);
+		// console.log("Dashboard expenses:", expenses);
 		setExpenses(expenses);
 	}
 
 	useEffect(() => {
 		async function getData() {
-			if (!isManager) {
-				setModels(readUsers("model"));
-				console.log(readJobs());
-				const jobs1 = await fetchJobs();
-				console.log("jobs1", jobs1);
-				const jobsList = jobs.filter((job) =>
-					job.modelName.includes(readUser().name)
-				);
-
-				console.log("jobsList:", jobsList);
-				if (jobsList) setJobs(jobsList);
-			}
-
 			if (isManager) {
-				fetchJobs();
-				fetchModels();
-				fetchExpenses();
-				// const users = readUsers();
-				// const sortedUsers = (users) => {
-				// 	const models = users.filter(
-				// 		(user) => user.role.toLowerCase() === "model"
-				// 	);
-				// 	const managers = users.filter(
-				// 		(user) => user.role.toLowerCase() === "manager"
-				// 	);
-				// 	return [...managers, ...models];
-				// };
-				// setJobs(readJobs());
+				await fetchModels();
+				await fetchExpenses();
 			}
+			await fetchJobs();
 		}
 		getData();
 	}, []);
@@ -93,58 +73,81 @@ const Dashboard = (props) => {
 		updateLocalJobs(jobs);
 	}, [jobs]);
 
-	const addModelToExistingJob = (model) => {
+	const addModelToExistingJob = async (model) => {
 		setShowDialog(false);
+		const modelToAdd = models.find((m) => model.includes(m.email));
+		console.log(modelToAdd);
+		await AddModelToJob(jobToUpdate, modelToAdd.efModelId);
 
-		const newJobs = jobs.map((job) => {
-			if (job.id === jobToUpdate) {
-				job.modelName.push(model);
-			}
-			return job;
-		});
+		console.log("job to update:", jobToUpdate);
 
-		setModels(readUsers());
-		setJobs(newJobs);
+		console.log("model:", model);
+
+		await fetchModels();
+		await fetchJobs();
 	};
 
-	const handleRemoveModelFromJob = (model, id) => {
-		console.log(model, id);
-		const newJobs = jobs.map((job) => {
-			if (job.id === id) {
-				job.modelName = job.modelName.filter((m) => m !== model);
-			}
-			return job;
+	const handleRemoveModelFromJob = async (email, id) => {
+		console.log(email, id);
+		// looks through jobs to find a job with the correct jobId
+		const job = jobs.find((job) => job.jobId === id);
+		if (!job) return;
+		// uses the email to find the model to remove
+		const modelToRemove = job.models.find((model) => model.email === email);
+		if (!modelToRemove) return;
+
+		console.log("model to remove", modelToRemove);
+		// finds a matching model email in localStorage to find ID for API call
+		const modelId = readUsers().find((user) => user.email === email).efModelId;
+		console.log("modelId to remove", modelId);
+
+		const success = await RemoveModelFromJob(job.jobId, modelId);
+		console.log(success);
+		const newJobs = job.models.filter((model) => {
+			return model.email !== email;
 		});
-		setJobs(newJobs);
+		await fetchJobs();
+		console.log("job after model removed:", newJobs);
+		setJobs(readJobs());
 	};
 
 	const findAvailableModels = (jobId) => {
-		const job = jobs?.find((job) => job.id === jobId);
-		setJobToUpdate(job.id);
+		// console.log(jobs);
+		// console.log("jobId:", jobId);
+		console.log("models:", models);
 
-		const availableModels = models.filter((model) => {
-			return !job?.modelName?.includes(model?.name);
+		const job = jobs?.find((job) => job.jobId === jobId);
+		// console.log("job to add models to:", job);
+		setJobToUpdate(job.jobId);
+
+		const modelsOnJob = job.models;
+		const modelsOnJobEmails = modelsOnJob.map((model) => model.email);
+		console.log("models on job:", modelsOnJob);
+
+		setAvailableModels(
+			models.filter((model) => !modelsOnJob.includes(model.email))
+		);
+
+		// adding models not on job to available models
+		const newModels = models.filter((model) => {
+			return !modelsOnJobEmails.includes(model.email);
 		});
 
-		const availableModelNames = availableModels.map((model) => model.name);
-		return availableModelNames;
+		const availableModelInfo = newModels.map(
+			(model) => model.firstName + " " + model.lastName + " - " + model.email
+		);
+		return availableModelInfo;
 	};
 
 	const handleAddModelToJob = (jobId) => {
+		console.log(jobId);
 		setAvailableModels(findAvailableModels(jobId));
+		console.log(availableModels);
 		setShowDialog(true);
 	};
 
 	const handleDeleteJob = (id) => {
 		setJobs(jobs.filter((job) => job.id !== id));
-	};
-
-	const modelNames = (models) => {
-		let names = [];
-		models.forEach((model) => {
-			names.push(model.name);
-		});
-		return names;
 	};
 
 	const handleJobAdded = (newJob) => {
@@ -174,20 +177,24 @@ const Dashboard = (props) => {
 		console.log(expense);
 		setShowDialog(false);
 
-		const newJobs = jobs.map((job) => {
-			if (job.id === jobToUpdate) {
-				job.salary = +job.salary + +expense.expense;
-			}
-			return job;
-		});
-		setJobs(newJobs);
+		expense = { ...expense, jobId: jobToUpdate };
+
+		const success = createExpense(expense);
+		console.log("success:", success);
+		if (!success) return;
 	};
 
 	return (
 		<React.Fragment>
 			<Container
 				component="main"
-				sx={{ ...bodyContainer, flexDirection: "column", pt: 14, pb: 0 }}
+				sx={{
+					...bodyContainer,
+					flexDirection: "column",
+					pt: 14,
+					pb: 0,
+					width: "100%",
+				}}
 			>
 				<Typography variant="h3">
 					{isManager ? "Manager " : "Model "}Dashboard
@@ -221,11 +228,13 @@ const Dashboard = (props) => {
 						onModelSelected={addModelToExistingJob}
 						onAddExpense={handleAddExpense}
 					/>
-					<EmployeeList
-						title={isManager ? "Employee List" : "Models"}
-						models={models}
-					/>
-					<ExpensesList expenses={expenses} models={models} />
+					{isManager && (
+						<EmployeeList
+							title={isManager ? "Employee List" : "Models"}
+							models={models}
+						/>
+					)}
+					{isManager && <ExpensesList expenses={expenses} models={models} />}
 				</Box>
 			</Container>
 		</React.Fragment>

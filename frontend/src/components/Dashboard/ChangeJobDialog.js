@@ -27,10 +27,11 @@ const ChangeJobDialog = (props) => {
 	const handleAddExpense = () => {
 		const user = readUser();
 		props.onAddExpense({
-			expense: expense,
+			// models do not have access to their own id so I had to hardcode an accepted id to test
+			modelId: 2,
 			date: new Date(),
-			description: description,
-			user: user,
+			text: description,
+			amount: expense,
 		});
 	};
 
