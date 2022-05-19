@@ -42,7 +42,6 @@ const CreateModel = (props) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log("onNewModel called", user);
 		props.onNewUser(user, "model");
 	};
 

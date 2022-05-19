@@ -14,10 +14,10 @@ export const getAllModels = async () => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -40,10 +40,10 @@ export const addModel = async (model) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -64,10 +64,10 @@ export const getModel = async (modelId) => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -88,10 +88,10 @@ export const getModelWithJobs = async (modelId) => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };

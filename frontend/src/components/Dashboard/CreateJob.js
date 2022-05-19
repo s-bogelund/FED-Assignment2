@@ -23,28 +23,13 @@ const CreateJob = (props) => {
 
 	const handleJobSubmit = async (event) => {
 		event.preventDefault();
-		console.log("new job:", newJob);
 		const success = await createJob(newJob);
 		if (success) {
 			updateLocalJobs(newJob);
 		}
-		// props.onNewJob(customer, salary, chosenModels);
-		// setNewJob({
-		// 	customer: "",
-		// 	startDate: "",
-		// 	days: "",
-		// 	location: "",
-		// 	comments: "",
-		// });
 
 		props.onNewJob(newJob);
 	};
-
-	// autocomplete
-	// const handleModelSelected = (event, value) => {
-	// 	// console.log("handleModelSelected called with value: ", value);
-	// 	setChosenModels(value);
-	// };
 
 	return (
 		<Container maxWidth="xs" sx={{ ...containerStyle }}>

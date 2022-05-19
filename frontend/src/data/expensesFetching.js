@@ -14,10 +14,9 @@ export const getExpenses = async () => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -40,10 +39,9 @@ export const createExpense = async (expense) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -65,10 +63,9 @@ export const getExpense = async (expenseId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -91,10 +88,9 @@ export const changeExpense = async (expenseId, expense) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -116,10 +112,9 @@ export const deleteExpense = async (expenseId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -141,10 +136,9 @@ export const getModelExpenses = async (modelId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };

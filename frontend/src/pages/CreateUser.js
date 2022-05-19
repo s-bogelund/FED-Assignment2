@@ -29,19 +29,15 @@ const CreateUser = (props) => {
 	};
 
 	const handleNewUser = async (user, role) => {
-		console.log("user to be added:", user);
-		console.log("role:", role);
 		let success = false;
 		if (role === "manager") {
 			success = await addManager(user);
 		}
 		if (role === "model") success = await addModel(user);
 
-		console.log("AddUser Result:", success);
 	};
 
 	const handleChoice = (choice) => {
-		console.log(choice);
 
 		if (choice === "model") {
 			setShowChoice(false);

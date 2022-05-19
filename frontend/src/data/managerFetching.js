@@ -15,10 +15,10 @@ export const getAllManagers = async () => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -41,10 +41,10 @@ export const addManager = async (manager) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	if (response) console.log("Manager added: ", response);
 	return response;
@@ -67,10 +67,10 @@ export const getManager = async (managerId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };

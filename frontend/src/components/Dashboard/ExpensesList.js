@@ -16,13 +16,11 @@ import { readUsers } from "../../data/handleLocalStorage";
 import { containerStyle, hoverEffect } from "../styling";
 
 const ExpensesList = (props) => {
-	const [expenses, setExpenses] = useState(props.expenses);
+	const [expenses, setExpenses] = useState(props.expenses || []);	
 	const [models, setModels] = useState(props.models);
 	const [hoverName, setHoverName] = useState("");
 
 	useEffect(() => {
-		// console.log("expenses:", props.expenses);
-		// console.log("models:", props.models);
 		setExpenses(props.expenses);
 		setModels(props.models);
 	}, [props.expenses]);

@@ -26,7 +26,6 @@ const CreateManager = (props) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log("onNewUser called");
 
 		props.onNewUser(user, "manager");
 		navigate("/");

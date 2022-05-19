@@ -14,9 +14,18 @@ import { Box } from "@mui/system";
 import JobModels from "./JobModels";
 import AuthContext from "../../../store/auth-context";
 import { ClassNames } from "@emotion/react";
-const stackStyle = {
+import { hoverEffect } from "../../styling";
+const paperStyle = {
+	display: "flex",
+	justifyContent: "flex-start",
+	alignItems: "center",
+	backgroundColor: "rgba(255, 255, 255, 0.01)",
+	borderRadius: 1,
+	border: "1px solid rgba(0, 0, 0, 0.52)",
+};
+const stackManager = {
 	display: "grid",
-	gridTemplateColumns: "4% 13% 23% 28% 10% 18%",
+	gridTemplateColumns: "5% 13% 23% 28% 10% 18%",
 	gap: 0.25,
 	placeItems: "center",
 	border: "1px solid rgba(0, 0, 0, 0.52)",
@@ -26,49 +35,40 @@ const stackStyle = {
 	margin: 0.3,
 	my: 0.5,
 	background: "#0c172341",
+	width: "auto",
+	height: "auto",
 };
-const paperStyle = {
-	display: "flex",
-	justifyContent: "flex-start",
-	alignItems: "center",
-	backgroundColor: "rgba(255, 255, 255, 0.01)",
-	borderRadius: 1,
+
+const stackModel = {
+	display: "grid",
+	gridTemplateColumns: "6.5% 23% 24% 19% 20%",
+	gap: 0.25,
+	placeItems: "center",
 	border: "1px solid rgba(0, 0, 0, 0.52)",
+	borderRadius: 1,
+	px: 1,
+	py: 0.4,
+	margin: 0.3,
+	my: 0.5,
+	background: "#0c172341",
+	width: "100%",
 };
 
 const Job = (props) => {
 	const ctx = useContext(AuthContext);
 	const isManager = ctx.loginState.isManager;
+	const [daysTooltip, setDaysTooltip] = useState("");
 
-	const stackStyle = {
-		display: "grid",
-		gridTemplateColumns: "4% 13% 23% 28% 10% 18%",
-		gap: 0.25,
-		placeItems: "center",
-		border: "1px solid rgba(0, 0, 0, 0.52)",
-		borderRadius: 1,
-		px: 1,
-		py: 0.4,
-		margin: 0.3,
-		my: 0.5,
-		background: "#0c172341",
-		width: isManager ? "auto" : "100%",
-	};
-
-	// console.log("job props", props);
 	const onAdd = () => {
-		console.log("adding to props.jobId:", props.jobId);
 		props.onAddModel(props.jobId);
 	};
 
 	const onDeleteJob = () => {
-		console.log("deleting job:", props.jobId);
 		props.onDeleteJob(props.jobId);
 	};
 
 	const onRemoveModel = (email) => {
 		if (!isManager) return;
-		console.log("removing model with email:", email, "from job:", props.jobId);
 		props.onRemoveModel(email, props.jobId);
 	};
 
@@ -92,11 +92,20 @@ const Job = (props) => {
 		return jobModels;
 	};
 
+	const handleDaysHover = () => {
+		const date = new Date(props.startDate);
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+
+		setDaysTooltip(`Startdate : ${day}/${month}/${year}`);
+	};
+
 	return (
-		<Stack direction="row" sx={stackStyle}>
+		<Stack direction="row" sx={isManager ? stackManager : stackModel}>
 			<Box
 				sx={{
-					gridColumn: "1",
+					gridColumn: 1,
 					placeSelf: "center start",
 					display: "flex",
 					justifyContent: "flex-start",
@@ -125,6 +134,7 @@ const Job = (props) => {
 					gridColumn: "2",
 					placeSelf: "center",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
+					width: "100%",
 				}}
 			>
 				<Paper
@@ -172,13 +182,13 @@ const Job = (props) => {
 			)}
 			<Box
 				sx={{
-					gridColumn: "4",
+					gridColumn: isManager ? 4 : "3",
 					display: "flex",
 					justifyContent: "center",
 					px: 6,
 					flexWrap: "wrap",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
-					borderLeft: "1px solid rgba(0, 0, 0, 0.52)",
+					borderLeft: isManager ? "1px solid rgba(0, 0, 0, 0.52)" : "none",
 					width: "100%",
 				}}
 			>
@@ -197,29 +207,37 @@ const Job = (props) => {
 			</Box>
 			<Box
 				sx={{
-					gridColumn: "5",
+					gridColumn: "isManager ? 5 : 4",
 					display: "flex",
 					justifyContent: "center",
 					borderRight: "1px solid rgba(0, 0, 0, 0.52)",
 				}}
 			>
-				<Paper
-					sx={{
-						...paperStyle,
-						placeContent: "center",
+				<Tooltip title={daysTooltip} placement="right">
+					<Paper
+						sx={{
+							...paperStyle,
+							placeContent: "center",
 
-						width: "auto",
-						minWidth: "6rem",
-					}}
-				>
-					<Typography variant="body1">{props.days} days</Typography>
-				</Paper>
+							width: "auto",
+							minWidth: "6rem",
+							transition: "all 0.15s ease-in-out",
+							"&:hover": {
+								transform: "scale(1.05)",
+								cursor: "pointer",
+								boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.32)",
+							},
+						}}
+						onMouseEnter={handleDaysHover}
+					>
+						<Typography variant="body1">{props.days} days</Typography>
+					</Paper>
+				</Tooltip>
 			</Box>
 			<Box
 				sx={{
-					gridColumn: "6",
+					gridColumn: isManager ? 6 : "5 / span 2",
 					placeContent: "center",
-					maxHeight: "1.8rem",
 					justifyContent: "center",
 				}}
 			>

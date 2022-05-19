@@ -86,22 +86,17 @@ const Login = (props) => {
 	const handleLoginSubmit = async (event) => {
 		event.preventDefault();
 		if (!isValidFormat()) return;
-		console.log("emailState:", emailState);
-		console.log("passwordState:", passwordState);
-		console.log("returning...");
 
 		if (!isValidFormat) return;
 
 		let user = { email: emailState.value, password: passwordState.value };
 		user = await loginRequest(user);
 
-		console.log("user:", user);
 		// if the login failed
 		validateInfo(user);
 		if (!user) return;
 
 		const token = jwt_decode(user.token);
-		// console.log("decode:", token);
 
 		let role = "Model";
 		if (JSON.stringify(token).toLowerCase().includes("manager")) {
@@ -109,12 +104,9 @@ const Login = (props) => {
 		}
 
 		user = { ...user, role: role, token: user.token };
-		// console.log("user at the end:", user);
 
 		navigate("/dashboard");
 		props.onLogin(user);
-
-		// // const user = users.find((user) => user.email === emailState.value);
 
 		dispatchEmail({ type: "SET_EMAIL", payload: "" });
 		dispatchPassword({ type: "SET_PASSWORD", payload: "" });
@@ -227,7 +219,6 @@ const Login = (props) => {
 			});
 			return false;
 		}
-		console.log(user);
 		if (user.password === passwordState.value) {
 			dispatchToast({
 				type: "SET_TOAST",

@@ -9,6 +9,7 @@ import {
 	ListItem,
 	TextField,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import { getSuggestedQuery } from "@testing-library/react";
 import React, { useContext, useState } from "react";
 import { readUser } from "../../data/handleLocalStorage";
@@ -24,11 +25,11 @@ const ChangeJobDialog = (props) => {
 		props.onModelSelected(event.target.id);
 	};
 
-	const handleAddExpense = () => {
-		const user = readUser();
+	const handleAddExpense = (event) => {
+		event.preventDefault();
 		props.onAddExpense({
-			// models do not have access to their own id so I had to hardcode an accepted id to test
-			modelId: 2,
+			// models do not have access to their own id so I had to hardcode an accepted id to test :/
+			modelId: 2, // will always be Helena Christensen as of now
 			date: new Date(),
 			text: description,
 			amount: expense,
@@ -42,8 +43,6 @@ const ChangeJobDialog = (props) => {
 			</ListItem>
 		);
 	});
-
-	// console.log("dialog props: ", props);
 
 	return (
 		<Dialog
@@ -67,30 +66,49 @@ const ChangeJobDialog = (props) => {
 			)}
 			{/* What a model sees */}
 			{!isManager && (
-				<DialogContent sx={{ display: "flex", flexDirection: "column" }}>
+				<DialogContent
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+					}}
+				>
 					<DialogContentText>
 						The expense will be added on the the total salary for the job to
 						account for any personal expenses you may have.
 					</DialogContentText>
-					<TextField
-						id="expense"
-						label="Expense"
-						type="number"
-						variant="outlined"
-						onInput={(event) => setExpense(event.target.value)}
-						sx={{ mt: 5 }}
-					/>
-					<TextField
-						id="description"
-						label="Add Description"
-						type="text"
-						variant="outlined"
-						onInput={(event) => setDescription(event.target.value)}
-						sx={{ mt: 5 }}
-					/>
-					<DialogActions>
-						<Button onClick={handleAddExpense}>Add Expense</Button>
-					</DialogActions>
+					<Box
+						component="form"
+						onSubmit={handleAddExpense}
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							minWidth: "400px",
+						}}
+					>
+						<TextField
+							id="expense"
+							label="Expense"
+							type="number"
+							variant="outlined"
+							onInput={(event) => setExpense(event.target.value)}
+							sx={{ mt: 5, width: "100%" }}
+						/>
+						<TextField
+							id="description"
+							label="Add Description"
+							type="text"
+							variant="outlined"
+							onInput={(event) => setDescription(event.target.value)}
+							sx={{ mt: 3, mb: 2, width: "100%" }}
+						/>
+						<DialogActions>
+							<Button type="submit" onClick={handleAddExpense}>
+								Add Expense
+							</Button>
+						</DialogActions>
+					</Box>
 				</DialogContent>
 			)}
 		</Dialog>

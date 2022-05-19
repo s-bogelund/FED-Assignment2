@@ -29,7 +29,6 @@ const EmployeeList = (props) => {
 	const [hoverName, setHoverName] = useState("");
 	const [hoverModel, setHoverModel] = useState("");
 
-	// console.log(props);
 
 	useEffect(() => {
 		setModels(props.models);

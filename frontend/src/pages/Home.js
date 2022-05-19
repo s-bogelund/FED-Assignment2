@@ -10,7 +10,6 @@ const Home = () => {
 	const user = authCtx.loginState.user;
 
 	const homeHeader = () => {
-		// console.log(user);
 		if (!isLoggedIn) {
 			return "You are not logged in!";
 		}

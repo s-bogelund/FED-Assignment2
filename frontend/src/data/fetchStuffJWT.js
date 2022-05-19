@@ -15,11 +15,11 @@ export async function loginRequest(user) {
 			return { ...user, token: token.jwt };
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
+			// console.log("Server returned: " + response.statusText);
 			return false;
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 		return false;
 	}
 }

@@ -49,7 +49,6 @@ const loginReducer = (state, action) => {
 		default:
 	}
 
-	console.log(state);
 	return state;
 };
 
@@ -70,12 +69,10 @@ function App() {
 		const currentUser = readUser();
 
 		if (currentUser) {
-			// console.log("On load useEffect called");
 			checkNavBarLinks(currentUser);
 			dispatchLogin({ type: "LOGIN", payload: currentUser });
 		}
 
-		// console.log(loginState);
 	}, []);
 
 	useEffect(() => {
@@ -89,7 +86,6 @@ function App() {
 	}, [loginState]);
 
 	const newUserAdded = () => {
-		console.log("newUserAdded called");
 		setUsers(readUsers());
 	};
 
@@ -111,7 +107,6 @@ function App() {
 	};
 
 	const handleLogout = () => {
-		console.log("handleLogout called");
 		dispatchLogin({ type: "LOGOUT" });
 	};
 

@@ -14,10 +14,10 @@ export const getJobs = async () => {
 			console.log("Ok response:", response);
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -41,10 +41,10 @@ export const createJob = async (job) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
+			console.log("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -66,10 +66,9 @@ export const getJobInfo = async (jobId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -86,15 +85,13 @@ export const deleteJob = async (jobId) => {
 			}),
 		});
 		if (response.ok) {
-			console.log("Ok response:");
+			console.log("Ok response:", response);
 			response = await response.json();
-			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -117,10 +114,9 @@ export const updateJob = async (jobId, updatedJob) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -142,10 +138,9 @@ export const AddModelToJob = async (jobId, modelId) => {
 			console.log(response);
 		} else {
 			console.log("Not ok response: ", response);
-			// alert("Server returned: " + response.statusText);
 		}
 	} catch (err) {
-		alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
@@ -169,7 +164,7 @@ export const RemoveModelFromJob = async (jobId, modelId) => {
 			console.log("Not ok response: ", response);
 		}
 	} catch (err) {
-		// alert("Error: " + err);
+		console.log("Error: " + err);
 	}
 	return response;
 };
