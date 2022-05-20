@@ -1,14 +1,9 @@
-import { getSeedUsers, seedJobs } from "./seeds";
-
 export const readUsers = (role) => {
 	let users = JSON.parse(localStorage.getItem("users"));
-	if (!users) {
-		// updating localStorage with seed data
-		localStorage.setItem("users", JSON.stringify(getSeedUsers("all")));
-		return getSeedUsers("all");
-	}
+	if (!users) return;
+
+	// was made to fetch either managers or models - no longer relevant
 	if (!role) {
-		// console.log("returning all users");
 		return users;
 	}
 
@@ -17,10 +12,8 @@ export const readUsers = (role) => {
 
 export const readJobs = () => {
 	let jobs = JSON.parse(localStorage.getItem("jobs"));
-	if (!jobs) {
-		localStorage.setItem("jobs", JSON.stringify(seedJobs));
-		return seedJobs;
-	}
+	if (!jobs) return;
+
 	return jobs;
 };
 

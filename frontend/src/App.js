@@ -10,7 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 // import { getSeedUsers } from "./data/seeds";
-import { readJobs, readUsers, readUser } from "./data/handleLocalStorage";
+import { readJobs, readUsers, readUser } from "./api/localStorageHandler";
 import AuthContext from "./store/auth-context";
 
 const darkTheme = createTheme({

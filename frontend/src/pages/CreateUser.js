@@ -6,8 +6,8 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Button, Container } from "@mui/material";
 import { bodyContainer } from "../components/styling";
-import { addManager } from "../data/managerFetching";
-import { addModel } from "../data/modelsFetching";
+import { addManager } from "../api/managerFetching";
+import { addModel } from "../api/modelsFetching";
 
 const buttonHover = {
 	backgroundColor: "rgba(0, 0, 0, 0.01)",

@@ -1,16 +1,8 @@
-import {
-	Autocomplete,
-	Box,
-	Button,
-	Container,
-	TextField,
-	Typography,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { containerStyle } from "../styling";
-import { seedUsers } from "../../data/seeds";
-import { createJob } from "../../data/jobFetching";
+import { createJob } from "../../api/jobFetching";
 import React, { useEffect, useState } from "react";
-import { readUsers, updateLocalJobs } from "../../data/handleLocalStorage";
+import { readUsers, updateLocalJobs } from "../../api/localStorageHandler";
 
 const CreateJob = (props) => {
 	const [newJob, setNewJob] = useState({

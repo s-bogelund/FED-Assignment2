@@ -12,8 +12,9 @@ import {
 import { Box } from "@mui/system";
 import { getSuggestedQuery } from "@testing-library/react";
 import React, { useContext, useState } from "react";
-import { readUser } from "../../data/handleLocalStorage";
+import { readUser } from "../../api/localStorageHandler";
 import AuthContext from "../../store/auth-context";
+import jwt_decode from "jwt-decode";
 
 const ChangeJobDialog = (props) => {
 	const [expense, setExpense] = useState(0);
@@ -27,9 +28,10 @@ const ChangeJobDialog = (props) => {
 
 	const handleAddExpense = (event) => {
 		event.preventDefault();
+		const modelId = jwt_decode(ctx.loginState.token).ModelId;
+
 		props.onAddExpense({
-			// models do not have access to their own id so I had to hardcode an accepted id to test :/
-			modelId: 2, // will always be Helena Christensen as of now
+			modelId: modelId,
 			date: new Date(),
 			text: description,
 			amount: expense,
@@ -89,6 +91,7 @@ const ChangeJobDialog = (props) => {
 					>
 						<TextField
 							id="expense"
+							required
 							label="Expense"
 							type="number"
 							variant="outlined"
@@ -104,9 +107,7 @@ const ChangeJobDialog = (props) => {
 							sx={{ mt: 3, mb: 2, width: "100%" }}
 						/>
 						<DialogActions>
-							<Button type="submit" onClick={handleAddExpense}>
-								Add Expense
-							</Button>
+							<Button type="submit">Add Expense</Button>
 						</DialogActions>
 					</Box>
 				</DialogContent>

@@ -12,10 +12,10 @@ import {
 	Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { readUsers, updateLocalUsers } from "../../data/handleLocalStorage";
+import { readUsers, updateLocalUsers } from "../../api/localStorageHandler";
 import { containerStyle, hoverEffect } from "../styling";
 import { v4 as uuid } from "uuid";
-import { getAllModels, getModel } from "../../data/modelsFetching";
+import { getAllModels, getModel } from "../../api/modelsFetching";
 
 const nameHover = {
 	...hoverEffect,

@@ -11,8 +11,8 @@ import {
 import React, { useState, useReducer, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { bodyContainer, largeBoxStyle } from "../components/styling";
-import { loginRequest } from "../data/fetchStuffJWT";
-import { getUsers } from "../data/handleLocalStorage";
+import { loginRequest } from "../api/login";
+import { getUsers } from "../api/localStorageHandler";
 import jwt_decode from "jwt-decode";
 import AuthContext from "../store/auth-context";
 

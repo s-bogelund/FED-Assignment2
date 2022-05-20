@@ -12,7 +12,7 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { readUsers } from "../../data/handleLocalStorage";
+import { readUsers } from "../../api/localStorageHandler";
 import { containerStyle, hoverEffect } from "../styling";
 
 const ExpensesList = (props) => {

@@ -1,10 +1,4 @@
-import {
-	Container,
-	List,
-	ListItem,
-	ListItemText,
-	Typography,
-} from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import CreateJob from "../components/Dashboard/CreateJob";
@@ -17,7 +11,7 @@ import {
 	readUser,
 	readUsers,
 	updateLocalJobs,
-} from "../data/handleLocalStorage";
+} from "../api/localStorageHandler";
 import AuthContext from "../store/auth-context";
 import { v4 as uuid } from "uuid";
 import {
@@ -25,10 +19,10 @@ import {
 	deleteJob,
 	getJobs,
 	RemoveModelFromJob,
-} from "../data/jobFetching";
+} from "../api/jobFetching";
 import ExpensesList from "../components/Dashboard/ExpensesList";
-import { getExpenses, createExpense } from "../data/expensesFetching";
-import { getAllModels } from "../data/modelsFetching";
+import { getExpenses, createExpense } from "../api/expensesFetching";
+import { getAllModels } from "../api/modelsFetching";
 
 const Dashboard = (props) => {
 	const ctx = useContext(AuthContext);
