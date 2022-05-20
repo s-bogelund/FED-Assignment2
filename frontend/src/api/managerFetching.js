@@ -1,5 +1,7 @@
+import address from './api-address';
+
 export const getAllManagers = async () => {
-	var url = `https://localhost:7181/api/Managers`;
+	var url = `${address}api/Managers`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -24,7 +26,7 @@ export const getAllManagers = async () => {
 };
 
 export const addManager = async (manager) => {
-	var url = `https://localhost:7181/api/Managers`;
+	var url = `${address}api/Managers`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -51,7 +53,7 @@ export const addManager = async (manager) => {
 };
 
 export const getManager = async (managerId) => {
-	var url = `https://localhost:7181/api/Managers/${managerId}`;
+	var url = `${address}api/Managers/${managerId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {

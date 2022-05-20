@@ -1,5 +1,7 @@
+import address from "./api-address";
+
 export const getJobs = async () => {
-	var url = "https://localhost:7181/api/Jobs";
+	var url = `${address}api/Jobs`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -24,7 +26,7 @@ export const getJobs = async () => {
 
 // returns response or "false" if unsuccessful
 export const createJob = async (job) => {
-	var url = "https://localhost:7181/api/Jobs";
+	var url = `${address}api/Jobs`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -50,7 +52,7 @@ export const createJob = async (job) => {
 };
 
 export const getJobInfo = async (jobId) => {
-	var url = `https://localhost:7181/api/Jobs/${jobId}`; //change this
+	var url = `${address}api/Jobs/${jobId}`; //change this
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -74,7 +76,7 @@ export const getJobInfo = async (jobId) => {
 };
 
 export const deleteJob = async (jobId) => {
-	var url = `https://localhost:7181/api/Jobs/${jobId}`; //change this
+	var url = `${address}api/Jobs/${jobId}`; //change this
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -97,7 +99,7 @@ export const deleteJob = async (jobId) => {
 };
 
 export const updateJob = async (jobId, updatedJob) => {
-	var url = `https://localhost:7181/api/Jobs/${jobId}`;
+	var url = `${address}api/Jobs/${jobId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -122,7 +124,7 @@ export const updateJob = async (jobId, updatedJob) => {
 };
 
 export const AddModelToJob = async (jobId, modelId) => {
-	var url = `https://localhost:7181/api/Jobs/${jobId}/model/${modelId}`;
+	var url = `${address}api/Jobs/${jobId}/model/${modelId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -146,7 +148,7 @@ export const AddModelToJob = async (jobId, modelId) => {
 };
 
 export const RemoveModelFromJob = async (jobId, modelId) => {
-	var url = `https://localhost:7181/api/Jobs/${jobId}/model/${modelId}`;
+	var url = `${address}api/Jobs/${jobId}/model/${modelId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {

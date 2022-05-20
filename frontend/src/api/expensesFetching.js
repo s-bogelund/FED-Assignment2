@@ -1,5 +1,6 @@
+import address from './api-address';
 export const getExpenses = async () => {
-	var url = `https://localhost:7181/api/Expenses`;
+	var url = `${address}api/Expenses`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -22,7 +23,7 @@ export const getExpenses = async () => {
 };
 
 export const createExpense = async (expense) => {
-	var url = `https://localhost:7181/api/Expenses`;
+	var url = `${address}api/Expenses`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -47,7 +48,7 @@ export const createExpense = async (expense) => {
 };
 
 export const getExpense = async (expenseId) => {
-	var url = `https://localhost:7181/api/Expenses/${expenseId}`;
+	var url = `${address}api/Expenses/${expenseId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -71,7 +72,7 @@ export const getExpense = async (expenseId) => {
 };
 
 export const changeExpense = async (expenseId, expense) => {
-	var url = `https://localhost:7181/api/Expenses/${expenseId}`;
+	var url = `${address}api/Expenses/${expenseId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -96,7 +97,7 @@ export const changeExpense = async (expenseId, expense) => {
 };
 
 export const deleteExpense = async (expenseId) => {
-	var url = `https://localhost:7181/api/Expenses/${expenseId}`;
+	var url = `${address}api/Expenses/${expenseId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -120,7 +121,7 @@ export const deleteExpense = async (expenseId) => {
 };
 
 export const getModelExpenses = async (modelId) => {
-	var url = `https://localhost:7181/api/Expenses/model/${modelId}`;
+	var url = `${address}api/Expenses/model/${modelId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {

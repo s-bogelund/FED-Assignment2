@@ -1,5 +1,7 @@
+import address from './api-address';
+
 export const getAllModels = async () => {
-	var url = `https://localhost:7181/api/Models`;
+	var url = `${address}api/Models`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -23,7 +25,7 @@ export const getAllModels = async () => {
 };
 
 export const addModel = async (model) => {
-	var url = `https://localhost:7181/api/Models`;
+	var url = `${address}api/Models`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -49,7 +51,7 @@ export const addModel = async (model) => {
 };
 
 export const getModel = async (modelId) => {
-	var url = `https://localhost:7181/api/Models/${modelId}`;
+	var url = `${address}api/Models/${modelId}`;
 	let response = false;
 	try {
 		response = await fetch(url, {
@@ -73,7 +75,7 @@ export const getModel = async (modelId) => {
 };
 
 export const getModelWithJobs = async (modelId) => {
-	var url = `https://localhost:7181/api/Models/${modelId}/jobs`;
+	var url = `${address}api/Models/${modelId}/jobs`;
 	let response = false;
 	try {
 		response = await fetch(url, {

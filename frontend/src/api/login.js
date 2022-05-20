@@ -1,5 +1,7 @@
+import address from "./api-address";
+
 export async function loginRequest(user) {
-	let url = "https://localhost:7181/api/account/login";
+	let url = `${address}api/account/login`;
 	try {
 		let response = await fetch(url, {
 			method: "POST",
